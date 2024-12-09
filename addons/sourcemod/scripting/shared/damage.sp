@@ -793,7 +793,7 @@ static float Player_OnTakeDamage_Equipped_Weapon_Logic(int victim, int &attacker
 		}
 		case WEAPON_CASTLEBREAKER:
 		{
-			WeaponCastleBreaker_OnTakeDamage(attacker, victim, damage);
+			WeaponCastleBreaker_OnTakeDamage(victim, damage);
 		}
 	}
 	return damage;
@@ -2092,6 +2092,7 @@ void EntityBuffHudShow(int victim, int attacker, char[] Debuff_Adder_left, char[
 	{
 		Format(Debuff_Adder_left, SizeOfChar, "%sM", Debuff_Adder_left);
 	}
+#if defined ZR
 	if(Victoria_Support_RechargeTime(victim))
 	{
 		FormatEx(Debuff_Adder_left, SizeOfChar, "%s[◈ %i％]", Debuff_Adder_left, Victoria_Support_RechargeTime(victim));
@@ -2100,6 +2101,7 @@ void EntityBuffHudShow(int victim, int attacker, char[] Debuff_Adder_left, char[
 	{
 		FormatEx(Debuff_Adder_left, SizeOfChar, "%s!Lock on!", Debuff_Adder_left);
 	}
+#endif
 
 
 	//BUFFS GO HERE.

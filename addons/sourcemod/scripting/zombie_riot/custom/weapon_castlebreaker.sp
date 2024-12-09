@@ -3,10 +3,8 @@
 static Handle h_TimerCastleBreakerWeaponManagement[MAXTF2PLAYERS] = {null, ...};
 static bool b_AbilityActivated[MAXTF2PLAYERS];
 static bool b_AbilityDone[MAXTF2PLAYERS];
-static int i_CastleBreakerDoubleHit[MAXENTITIES];
 static bool Change[MAXPLAYERS];
 static int i_VictoriaParticle[MAXTF2PLAYERS];
-#define SOUND_MES_CHANGE 	"weapons/bumper_car_accelerate.wav"
 
 void ResetMapStartCastleBreakerWeapon()
 {
@@ -16,7 +14,6 @@ void ResetMapStartCastleBreakerWeapon()
 void CastleBreaker_Map_Precache() //Anything that needs to be precaced like sounds or something.
 {
 	PrecacheSound("ambient/cp_harbor/furnace_1_shot_05.wav");
-	PrecacheSound(SOUND_MES_CHANGE);
 }
 
 void CastleBreaker_DoSwingTrace(int client, float &CustomMeleeRange, float &CustomMeleeWide, bool &ignore_walls, int &enemies_hit_aoe)
@@ -27,12 +24,6 @@ void CastleBreaker_DoSwingTrace(int client, float &CustomMeleeRange, float &Cust
 	{
 		enemies_hit_aoe = 2; //hit 2 targets.
 	}
-}
-
-void Reset_stats_CastleBreaker_Singular_Weapon(int weapon) //This is on weapon remake. cannot set to 0 outright.
-{
-	b_WeaponAttackSpeedModified[weapon] = false;
-	i_CastleBreakerDoubleHit[weapon] = 0;
 }
 
 public void CastleBreaker_M1(int client, int weapon, bool crit, int slot)
@@ -54,15 +45,13 @@ public void CastleBreaker_M1(int client, int weapon, bool crit, int slot)
 			Attributes_Set(weapon, 6, attackspeed); //Make it really fast for 1 hit!
 		}
 	}
-	else
+	else if(b_WeaponAttackSpeedModified[weapon])
 	{
-		if(!b_AbilityDone[client])// reset attack speed
-		{
-			attackspeed = 1.0; // aint too sure if this is a right method
-			Attributes_Set(weapon, 6, attackspeed);
-			b_AbilityDone[client] = true;
-		}
+		b_WeaponAttackSpeedModified[weapon] = false;
+		attackspeed = (attackspeed / 0.15);
+		Attributes_Set(weapon, 6, attackspeed); //Make it really fast for 1 hit!
 	}
+
 	if(Change[client] == true)
 	{
 		int new_ammo = GetAmmo(client, 8); //rocket ammo
@@ -246,8 +235,7 @@ void WeaponCastleBreaker_OnTakeDamageNpc(int attacker, int victim, float &damage
 	EmitAmbientSound(SOUND_VIC_IMPACT, spawnLoc, victim, 70,_, 0.9, 70);
 	ParticleEffectAt(position, "rd_robot_explosion_smoke_linger", 1.0);
 }
-
-void WeaponCastleBreaker_OnTakeDamage(int attacker, int victim, float &damage)
+void WeaponCastleBreaker_OnTakeDamage( int victim, float &damage)
 {
 	if(b_AbilityActivated[victim])
 	{
