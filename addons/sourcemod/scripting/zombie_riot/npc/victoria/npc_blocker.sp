@@ -414,6 +414,8 @@ public Action Blocker_OnTakeDamage(int victim, int &attacker, int &inflictor, fl
 		}
 		npc.m_flNextRangedAttack = GetGameTime(npc.index) + Cooltime;
 		damage = 0.0;
+		npc.AddGesture("ACT_SEABORN_DEFEND_TOOL_1");
+		npc.m_flNextMeleeAttack = GameTime + 0.25;
 		npc.PlayDeflectSound();
 	}
 

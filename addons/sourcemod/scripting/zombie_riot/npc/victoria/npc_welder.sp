@@ -300,7 +300,7 @@ void VictorianWelderSelfDefense(VictorianWelder npc, float gameTime, int target,
 					if(ShouldNpcDealBonusDamage(target))
 					{
 						damageDealt *= 5.0;
-						float fixedArmorgain = 500.0;
+						float fixedArmorgain = 2500.0;
 						if(NpcStats_VictorianCallToArms(npc.index))
 						{
 							fixedArmorgain *= 2.0;

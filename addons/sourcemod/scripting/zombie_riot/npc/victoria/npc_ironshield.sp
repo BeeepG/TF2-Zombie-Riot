@@ -167,6 +167,8 @@ methodmap VictorianIronShield < CClotBody
 		SetEntityRenderColor(npc.m_iWearable3, 255, 255, 255, 255);
 
 		npc.m_iWearable4 = npc.EquipItem("head", "models/workshop/player/items/heavy/tw_heavybot_helmet/tw_heavybot_helmet.mdl");
+		SetVariantString("0.75");
+		AcceptEntityInput(npc.m_iWearable3, "SetModelScale");
 		SetEntityRenderMode(npc.m_iWearable4, RENDER_TRANSCOLOR);
 		SetEntityRenderColor(npc.m_iWearable4, 150, 150, 150, 255);
 
