@@ -25,7 +25,7 @@ static const char g_MeleeHitSounds[][] = {
 };
 
 
-void VIctorianTanker_OnMapStart_NPC()
+void VictorianTanker_OnMapStart_NPC()
 {
 	for (int i = 0; i < (sizeof(g_DeathSounds));	   i++) { PrecacheSound(g_DeathSounds[i]);	   }
 	for (int i = 0; i < (sizeof(g_HurtSounds));		i++) { PrecacheSound(g_HurtSounds[i]);		}
@@ -46,11 +46,11 @@ void VIctorianTanker_OnMapStart_NPC()
 
 static any ClotSummon(int client, float vecPos[3], float vecAng[3], int ally)
 {
-	return VIctorianTanker(client, vecPos, vecAng, ally);
+	return VictorianTanker(client, vecPos, vecAng, ally);
 }
 
 
-methodmap VIctorianTanker < CClotBody
+methodmap VictorianTanker < CClotBody
 {
 	public void PlayIdleAlertSound() 
 	{
@@ -85,9 +85,9 @@ methodmap VIctorianTanker < CClotBody
 	}
 	
 	
-	public VIctorianTanker(int client, float vecPos[3], float vecAng[3], int ally)
+	public VictorianTanker(int client, float vecPos[3], float vecAng[3], int ally)
 	{
-		VIctorianTanker npc = view_as<VIctorianTanker>(CClotBody(vecPos, vecAng, "models/player/heavy.mdl", "1.0", "22000", ally));
+		VictorianTanker npc = view_as<VictorianTanker>(CClotBody(vecPos, vecAng, "models/player/heavy.mdl", "1.0", "22000", ally));
 		
 		i_NpcWeight[npc.index] = 1;
 		FormatEx(c_HeadPlaceAttachmentGibName[npc.index], sizeof(c_HeadPlaceAttachmentGibName[]), "head");
@@ -106,9 +106,9 @@ methodmap VIctorianTanker < CClotBody
 		npc.m_iStepNoiseType = STEPSOUND_NORMAL;	
 		npc.m_iNpcStepVariation = STEPTYPE_NORMAL;
 
-		func_NPCDeath[npc.index] = view_as<Function>(VIctorianTanker_NPCDeath);
-		func_NPCOnTakeDamage[npc.index] = view_as<Function>(VIctorianTanker_OnTakeDamage);
-		func_NPCThink[npc.index] = view_as<Function>(VIctorianTanker_ClotThink);
+		func_NPCDeath[npc.index] = view_as<Function>(VictorianTanker_NPCDeath);
+		func_NPCOnTakeDamage[npc.index] = view_as<Function>(VictorianTanker_OnTakeDamage);
+		func_NPCThink[npc.index] = view_as<Function>(VictorianTanker_ClotThink);
 		
 		
 		//IDLE
@@ -145,9 +145,9 @@ methodmap VIctorianTanker < CClotBody
 	}
 }
 
-public void VIctorianTanker_ClotThink(int iNPC)
+public void VictorianTanker_ClotThink(int iNPC)
 {
-	VIctorianTanker npc = view_as<VIctorianTanker>(iNPC);
+	VictorianTanker npc = view_as<VictorianTanker>(iNPC);
 	if(npc.m_flNextDelayTime > GetGameTime(npc.index))
 	{
 		return;
@@ -199,7 +199,7 @@ public void VIctorianTanker_ClotThink(int iNPC)
 		float VecSelfNpc[3]; WorldSpaceCenter(npc.index, VecSelfNpc);
 		float flDistanceToTarget = GetVectorDistance(vecTarget, VecSelfNpc, true);
 		int SetGoalVectorIndex = 0;
-		SetGoalVectorIndex = VIctorianTankerSelfDefense(npc,GetGameTime(npc.index), npc.m_iTarget, flDistanceToTarget); 
+		SetGoalVectorIndex = VictorianTankerSelfDefense(npc,GetGameTime(npc.index), npc.m_iTarget, flDistanceToTarget); 
 		switch(SetGoalVectorIndex)
 		{
 			case 0:
@@ -234,9 +234,9 @@ public void VIctorianTanker_ClotThink(int iNPC)
 	npc.PlayIdleAlertSound();
 }
 
-public Action VIctorianTanker_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
+public Action VictorianTanker_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)
 {
-	VIctorianTanker npc = view_as<VIctorianTanker>(victim);
+	VictorianTanker npc = view_as<VictorianTanker>(victim);
 		
 	if(attacker <= 0)
 		return Plugin_Continue;
@@ -257,9 +257,9 @@ public Action VIctorianTanker_OnTakeDamage(int victim, int &attacker, int &infli
 	return Plugin_Changed;
 }
 
-public void VIctorianTanker_NPCDeath(int entity)
+public void VictorianTanker_NPCDeath(int entity)
 {
-	VIctorianTanker npc = view_as<VIctorianTanker>(entity);
+	VictorianTanker npc = view_as<VictorianTanker>(entity);
 	if(!npc.m_bGib)
 	{
 		npc.PlayDeathSound();	
@@ -279,7 +279,7 @@ public void VIctorianTanker_NPCDeath(int entity)
 
 }
 
-int VIctorianTankerSelfDefense(VIctorianTanker npc, float gameTime, int target, float distance)
+int VictorianTankerSelfDefense(VictorianTanker npc, float gameTime, int target, float distance)
 {
 	if(gameTime > npc.m_flNextMeleeAttack)
 	{

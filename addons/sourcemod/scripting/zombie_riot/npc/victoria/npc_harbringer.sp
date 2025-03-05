@@ -239,7 +239,7 @@ public Action VictoriaHarbringer_OnTakeDamage(int victim, int &attacker, int &in
 	}
 	if(NpcStats_VictorianCallToArms(npc.index))
 	{
-		int health = ReturnEntityMaxHealth(npc.index) / 10;
+		int health = ReturnEntityMaxHealth(npc.index) / 20;
 
 		if(damage > float(health))
 		{

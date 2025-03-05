@@ -119,7 +119,7 @@ methodmap VictorianMechafist < CClotBody
 		
 		
 		npc.m_flNextMeleeAttack = 0.0;
-		npc.m_iOverlordComboAttack = 3;
+		npc.m_iOverlordComboAttack = 2;
 		
 		npc.m_iBleedType = BLEEDTYPE_NORMAL;
 		npc.m_iStepNoiseType = STEPSOUND_NORMAL;	
@@ -293,7 +293,7 @@ void VictorianMechafistSelfDefense(VictorianMechafist npc, float gameTime, int t
 								Knocked = true;
 								if(npc.m_iOverlordComboAttack <= 0)
 								{
-									npc.m_iOverlordComboAttack = 3;
+									npc.m_iOverlordComboAttack = 2;
 									if(NpcStats_VictorianCallToArms(npc.index))
 									{
 										Custom_Knockback(npc.index, target, 1000.0, true);

@@ -335,6 +335,10 @@ void VictorianBallistaSelfDefense(VictorianBallista npc, float gameTime)
 
 						npc.FaceTowards(vecTarget, 20000.0);
 						npc.m_flNextMeleeAttack = GetGameTime(npc.index) + 0.1;
+						if(NpcStats_VictorianCallToArms(npc.index))
+						{
+							projectile_speed *= 1.5;
+						}
 						npc.FireParticleRocket(vecTarget, 20.0 , projectile_speed , 150.0 , "flaregun_energyfield_red");
 						npc.PlayIdleAlertSound();
 					}

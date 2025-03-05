@@ -216,7 +216,6 @@ static void Internal_ClotThink(int iNPC)
 			}
 			npc.m_fbRangedSpecialOn = true;
 
-			IgniteTargetEffect(npc.m_iWearable1);
 			if(IsValidEntity(npc.m_iWearable4))
 				RemoveEntity(npc.m_iWearable4);
 			

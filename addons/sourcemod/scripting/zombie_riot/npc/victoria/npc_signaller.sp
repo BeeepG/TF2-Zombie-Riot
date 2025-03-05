@@ -164,6 +164,24 @@ public void VictorianSignaller_ClotThink(int iNPC)
 
 	npc.m_flNextThinkTime = gameTime + 0.1;
 
+	int PrimaryThreatIndex = npc.m_iTargetAlly;
+
+	float vecTarget[3]; WorldSpaceCenter(PrimaryThreatIndex, vecTarget);
+		
+	float VecSelfNpc[3]; WorldSpaceCenter(npc.index, VecSelfNpc);
+	float flDistanceToTarget = GetVectorDistance(vecTarget, VecSelfNpc, true);
+			
+	if(flDistanceToTarget < 250000)
+	{
+		if(flDistanceToTarget < 62500)
+		{
+			NPC_StopPathing(npc.index);
+		}
+		else
+		{
+			npc.StartPathing();	
+		}
+	}
 	if(npc.m_iTargetAlly && !IsValidAlly(npc.index, npc.m_iTargetAlly))
 		npc.m_iTargetAlly = 0;
 	

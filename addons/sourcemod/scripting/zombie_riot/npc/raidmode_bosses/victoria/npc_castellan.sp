@@ -461,11 +461,8 @@ methodmap Castellan < CClotBody
 		SetEntityRenderMode(npc.m_iWearable7, RENDER_TRANSCOLOR);
 		SetEntityRenderColor(npc.m_iWearable7, 50, 50, 50, 255);
 
-		npc.m_iWearable8 = npc.EquipItem("head", "models/workshop/player/items/soldier/hwn2022_safety_stripes/hwn2022_safety_stripes.mdl");
+		npc.m_iWearable8 = npc.EquipItem("head", "models/workshop/player/items/soldier/dec24_field_fatigues_style1/dec24_field_fatigues_style1.mdl");
 		SetVariantString("1.0");
-		AcceptEntityInput(npc.m_iWearable8, "SetModelScale");
-		SetEntityRenderMode(npc.m_iWearable8, RENDER_TRANSCOLOR);
-		SetEntityRenderColor(npc.m_iWearable8, 50, 50, 50, 255);
 
 		SetEntProp(npc.m_iWearable2, Prop_Send, "m_nSkin", skin);
 		SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", skin);

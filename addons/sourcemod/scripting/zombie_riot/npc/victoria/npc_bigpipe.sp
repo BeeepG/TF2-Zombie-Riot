@@ -519,6 +519,21 @@ static Action HEGrenade_StartTouch(int entity, int target)
 	float ProjectileLoc[3];
 	GetEntPropVector(entity, Prop_Data, "m_vecAbsOrigin", ProjectileLoc);
 	Explode_Logic_Custom(0.0, owner, inflictor, -1, ProjectileLoc, 146.0, _, _, true, _, false, _, HEGrenade);
+	if(NpcStats_VictorianCallToArms(npc.index))
+	{
+		if(inflictor > MaxClients)
+		{
+			StartBleedingTimer_Against_Client(inflictor, entity, 15.0, 10);
+		}
+		else
+		{
+			if (!IsInvuln(inflictor))
+			{
+				StartBleedingTimer_Against_Client(inflictor, entity, 15.0, 10);
+				TF2_IgnitePlayer(inflictor, inflictor, 5.0);
+			}
+		}
+	}
 	ParticleEffectAt(ProjectileLoc, "ExplosionCore_MidAir", 1.0);
 	EmitSoundToAll(g_ExplosionSounds[GetRandomInt(0, sizeof(g_ExplosionSounds) - 1)], 0, SNDCHAN_AUTO, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME, _, -1, ProjectileLoc);
 	RemoveEntity(entity);
