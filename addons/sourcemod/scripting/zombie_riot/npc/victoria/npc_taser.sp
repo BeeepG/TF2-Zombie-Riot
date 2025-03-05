@@ -135,21 +135,27 @@ methodmap VictoriaTaser < CClotBody
 		SetVariantString("2.5");
 		AcceptEntityInput(npc.m_iWearable1, "SetModelScale");
 
-		npc.m_iWearable2 = npc.EquipItem("head", "models/workshop/player/items/spy/dec24_laire_filteure/dec24_laire_filteure.mdl");
+		npc.m_iWearable2 = npc.EquipItem("head", "models/workshop/player/items/soldier/hwn2023_shortness_breath/hwn2023_shortness_breath.mdl");
+		SetVariantString("1.2");
+		AcceptEntityInput(npc.m_iWearable2, "SetModelScale");
 
 		npc.m_iWearable3 = npc.EquipItem("head", "models/workshop/player/items/spy/majors_mark/majors_mark.mdl");
 
-		npc.m_iWearable4 = npc.EquipItem("head", "models/workshop/player/items/demo/sum20_hazard_headgear/sum20_hazard_headgear.mdl");
+		npc.m_iWearable4 = npc.EquipItem("head", "models/workshop/player/items/engineer/sum24_daring_dell_style4/sum24_daring_dell_style4.mdl");
 
-		npc.m_iWearable5 = npc.EquipItem("head", "models/workshop/player/items/spy/dec24_le_frosteaux/dec24_le_frosteaux.mdl");
 
 		SetEntProp(npc.m_iWearable1, Prop_Send, "m_nSkin", skin);
-		SetEntProp(npc.m_iWearable4, Prop_Send, "m_nSkin", skin);
-		SetEntProp(npc.m_iWearable5, Prop_Send, "m_nSkin", skin);
-		SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", skin);
-		SetEntProp(npc.m_iWearable2, Prop_Send, "m_nSkin", skin);
 		SetEntityRenderMode(npc.m_iWearable1, RENDER_TRANSCOLOR);
 		SetEntityRenderColor(npc.m_iWearable1, 255, 215, 0, 255);
+		SetEntProp(npc.m_iWearable2, Prop_Send, "m_nSkin", skin);
+		SetEntityRenderMode(npc.m_iWearable2, RENDER_TRANSCOLOR);
+		SetEntityRenderColor(npc.m_iWearable2, 50, 150, 150, 255);
+		SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", skin);
+		SetEntityRenderMode(npc.m_iWearable3, RENDER_TRANSCOLOR);
+		SetEntityRenderColor(npc.m_iWearable3, 80, 50, 50, 255);
+		SetEntProp(npc.m_iWearable4, Prop_Send, "m_nSkin", skin);
+		SetEntityRenderMode(npc.m_iWearable4, RENDER_TRANSCOLOR);
+		SetEntityRenderColor(npc.m_iWearable4, 0, 0, 0, 255);
 		return npc;
 	}
 }
