@@ -50,9 +50,9 @@ void VictorianSignaller_OnMapStart_NPC()
 	NPC_Add(data);  
 }
 
-static any ClotSummon(int client, float vecPos[3], float vecAng[3], int ally)
+static any ClotSummon(int client, float vecPos[3], float vecAng[3], int ally, const char[] data)
 {
-	return VictorianSignaller(client, vecPos, vecAng, ally);
+	return VictorianSignaller(client, vecPos, vecAng, ally, data);
 }
 
 methodmap VictorianSignaller < CClotBody
@@ -78,7 +78,7 @@ methodmap VictorianSignaller < CClotBody
 		EmitSoundToAll(g_hornsound[GetRandomInt(0, sizeof(g_hornsound) - 1)], this.index, SNDCHAN_STATIC, BOSS_ZOMBIE_SOUNDLEVEL , _, 0.5, GetRandomInt(80,110));
 	}
 	
-	public VictorianSignaller(int client, float vecPos[3], float vecAng[3], int ally)
+	public VictorianSignaller(int client, float vecPos[3], float vecAng[3], int ally, const char[] data)
 	{
 		VictorianSignaller npc = view_as<VictorianSignaller>(CClotBody(vecPos, vecAng, "models/player/soldier.mdl", "1.0", "6000", ally));
 		
@@ -111,6 +111,12 @@ methodmap VictorianSignaller < CClotBody
 		i_signaller_particle[npc.index] = EntIndexToEntRef(ParticleEffectAt_Parent(flPos, "utaunt_aestheticlogo_teamcolor_blue", npc.index, "m_vecAbsOrigin", {0.0,0.0,0.0}));
 		npc.GetAttachment("", flPos, flAng);
 
+		if(!StrContains(data, "unkillable"))
+		{
+			b_NoKnockbackFromSources[npc.index] = true;
+			b_ThisEntityIgnored[npc.index] = true;
+			b_NpcIsInvulnerable[npc.index] = true;
+		}
 		
 		npc.m_iWearable1 = npc.EquipItem("head", "models/weapons/c_models/c_battalion_bugle/c_battalion_bugle.mdl");
 		SetVariantString("1.2");

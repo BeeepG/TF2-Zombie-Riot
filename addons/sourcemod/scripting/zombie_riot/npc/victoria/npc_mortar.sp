@@ -394,7 +394,7 @@ int VictoriaMortarSelfDefense(VictoriaMortar npc, float gameTime, float distance
 	}
 	//No can shooty.
 	//Enemy is close enough.
-	if(distance < (NORMAL_ENEMY_MELEE_RANGE_FLOAT_SQUARED * 5.0))
+	if(distance < (NORMAL_ENEMY_MELEE_RANGE_FLOAT_SQUARED * 15.0))
 	{
 		if(Can_I_See_Enemy_Only(npc.index, npc.m_iTarget))
 		{

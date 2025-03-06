@@ -1212,7 +1212,7 @@ static Action Internal_OnTakeDamage(int victim, int &attacker, int &inflictor, f
 			b_CantCollidieAlly[npc.index] = true;
 			b_CantCollidie[npc.index] = true;
 			SetEntityCollisionGroup(npc.index, 24);
-			b_ThisEntityIgnoredByOtherNpcsAggro[npc.index] = true; //Make allied npcs ignore him.
+			b_ThisEntityByOtherNpcsAggro[npc.index] = true; //Make allied npcs ignore him.
 			b_NpcIsInvulnerable[npc.index] = true;
 			RemoveNpcFromEnemyList(npc.index);
 			damage = 0.0;
