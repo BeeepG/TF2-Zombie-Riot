@@ -3571,70 +3571,126 @@
 		"en"	"Irongate Humbee"
 		"ko"	"강철게이트 험비"
 	}
+	"Humbee Desc"
+	{
+		"en"	"A Shotgunner riding a jeep armed with rocket launcher. When defeated, shotgunner jumps off the jeep.\n(When Signalled) rocket speed is increased"
+	}
 	"Shotgunner"
 	{
 		"en"	"Irongate Shotgunner"
 		"ko"	"강철게이트 샷거너"
+	}
+	"Humbee Desc"
+	{
+		"en"	"A ranged unit that is able to keep distance while it is firing.\n(When Signalled) inflicts bleed"
 	}
 	"Bulldozer"
 	{
 		"en"	"Irongate Bulldozer"
 		"ko"	"강철게이트 불도져"
 	}
+	"Humbee Desc"
+	{
+		"en"	"A giant unit that has immense blast resistance. It will lose his blast resistance when he lose armor.\n(When Signalled) Gains extra resistance"
+	}
 	"Hardender"
 	{
 		"en"	"Irongate Hardender"
 		"ko"	"강철게이트 경화자"
+	}
+	"Hardender Desc"
+	{
+		"en"	"A medic unit that provides armor as it heals to its patient.\n(When Signalled) provides empowerment buff to its patient"
 	}
 	"Raider"
 	{
 		"en"	"Irongate Raider"
 		"ko"	"강철게이트 침략자"
 	}
+	"Raider Desc"
+	{
+		"en"	"A robotic unit that fires slow yet powerful projectile.\n(When Signalled) doubles the damage"
+	}
 	"Zapper"
 	{
 		"en"	"Irongate Zapper"
 		"ko"	"강철게이트 잽퍼"
+	}
+	"Zapper Desc"
+	{
+		"en"	"A melee unit that inflicts strong teslar debuff.\n(When Signalled) longer teslar duration"
 	}
 	"Payback"
 	{
 		"en"	"Irongate Payback"
 		"ko"	"강철게이트 복수자"
 	}
+	"Payback Desc"
+	{
+		"en"	"A combine warrior that learnt how to delay its death. It becomes stronger as it lose health. upon 'death', it will revive once, gain armor and rush in. \n However, it will die after few seconds\n(When Signalled) More damage"
+	}
 	"Blocker"
 	{
 		"en"	"Irongate Blocker"
 		"ko"	"강철게이트 블록커"
+	}
+	"Blocker Desc"
+	{
+		"en"	"A melee unit that could block incoming damage with cooldown. \nit will also perform strong hit every 4th hit. \n(When Signalled) shorter cooldown"
 	}
 	"Victoria Destructor"
 	{
 		"en"	"Irongate Destructor"
 		"ko"	"강철게이트 페기물 소각자"
 	}
+	"Victoria Destructor Desc"
+	{
+		"en"	"An aoe ranged unit that creates explosion from its staff. \nit ignites all targets within the explosion\n(When Signalled) wider explosion range"
+	}
 	"Victoria Tactical Protector"
 	{
 		"en"	"Irongate Tactical Protector"
 		"ko"	"강철게이트 전술 프로텍터"
+	}
+	"Victoria Tactical Protector Desc"
+	{
+		"en"	"A giant unit that summons anvil when drone factory exists."
 	}
 	"Victoria Aviator"
 	{
 		"en"	"Irongate Aviator"
 		"ko"	"아이언 실드에 타라 신지"
 	}
+	"Victoria Aviator Desc"
+	{
+		"en"	"A master mechanist who summons a giant robot to ride. It will fire a shotgun and slam players to the ground with hammer. \nthe more it transforms, the more resistance it gets"
+	}
 	"IronShield"
 	{
 		"en"	"Irongate IronShield"
 		"ko"	"강철게이트 아이언실드"
+	}
+	"IronShield Desc"
+	{
+		"en"	"A giant robot with heavy fists. it deals high damage to buildings. \n(When Signalled): performs aoe attack more often"
 	}
 	"Basebreaker"
 	{
 		"en"	"Trooper  Basebreaker"
 		"ko"	"트루퍼 기지파괴자"
 	}
+	"Basebreaker Desc"
+	{
+		"en"	"A speedy unit with destructive weapon. it deals high damage to buildings. \n(When Signalled): runs faster"
+	}
 	"Booster"
 	{
 		"en"	"Trooper  Booster"
 		"ko"	"트루퍼 부스터"
+	}
+	"Booster Desc"
+	{
+		"en"	"A medic unit that provides damage boost to its patient as it heals them. \n(When Signalled): provides buff banner boost"
 	}
 	"Scorcher"
 	{
