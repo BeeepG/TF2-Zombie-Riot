@@ -3446,65 +3446,117 @@
 		"en"	"Leatherboots Batter"
 		"ko"	"가죽부츠 정찰대 타자"
 	}
+	"Batter Desc"
+	{
+		"en"	"A basic unit that runs fast. \n(Signalled): Gains more speed"
+	}
 	"Charger"
 	{
 		"en"	"Leatherboots Charger"
 		"ko"	"가죽부츠 정찰대 돌격병"
+	}
+	"Charger Desc"
+	{
+		"en"	"A speedy unit that starts slow but eventually accelerates. \nIt deals damage based on its speed \n(Signalled): Accelearates faster"
 	}
 	"Teslar"
 	{
 		"en"	"Leatherboots Teslar"
 		"ko"	"가죽부츠 정찰대 테슬라"
 	}
+	"Teslar Desc"
+	{
+		"en"	"A Melee unit that inflicts weak teslar debuff to its victim. \n(When Signalled): Teslar debuff lasts longer"
+	}
 	"Victorian Vanguard"
 	{
 		"en"	"Leatherboots Vanguard"
 		"ko"	"가죽부츠 정찰대 뱅가드"
+	}
+	"Victorian Vanguard Desc"
+	{
+		"en"	"A unit that pulls its victim when it lands a hit. \n(Signalled): Pulls even harder"
 	}
 	"Victorian Igniter"
 	{
 		"en"	"Leatherboots Igniter"
 		"ko"	"가죽부츠 정찰대 점화병"
 	}
+	"Victorian Igniter Desc"
+	{
+		"en"	"A giant unit that fires a flare that ignites target. \n(Signalled): Afterburn damage increased"
+	}
 	"Grenadier"
 	{
 		"en"	"Leatherboots Grenadier"
 		"ko"	"가죽부츠 정찰대 투척병"
+	}
+	"Grenadier Desc"
+	{
+		"en"	"A ranged unit that throws an arcing grenade around its target. \n(Signalled): attacks faster"
 	}
 	"Victorian ScoutSquad Leader"
 	{
 		"en"	"Leatherboots Leader"
 		"ko"	"가죽부츠 정찰대 리더"
 	}
+	"Victorian ScoutSquad Desc"
+	{
+		"en"	"An elite unit that applies vulnerability with its shotgun. \nwhen it runs out of ammo, it will pull out its axe. \nit will occasionally buff nearby units that grants immense speed \n(Signalled): Never lose an ammo when it fires a gun"
+	}
 	"Supplier"
 	{
 		"en"	"Leatherboots Supplier"
 		"ko"	"가죽부츠 정찰대 보급병"
+	}
+	"Supplier Desc"
+	{
+		"en"	"A supportive unit that provides small heal and ammo to nearby allies. \nIt could also provide armor and heal to its own type"
 	}
 	"Ballista"
 	{
 		"en"	"Leatherboots Ballista"
 		"ko"	"가죽부츠 정찰대 발리스타"
 	}
+	"Supplier Desc"
+	{
+		"en"	"A ranged unit that fires 3 energy ball before it reloads. \n(Signalled): Projectile speed increases massively"
+	}
 	"Birdeye"
 	{
 		"en"	"Birdeye"
 		"ko"	"버드아이"
+	}
+	"Birdeye Desc"
+	{
+		"en"	"A skilled sniper mercenary hired by victorian army. He works with two other teammates. \n He will apply heavy vulnerability to its target and teleport to random location when he is at half health \n In very rare circumstances, he would rush in when he teleports... \n(Signalled): He will always hit his target within his sight"
 	}
 	"Bigpipe"
 	{
 		"en"	"Big pipe"
 		"ko"	"빅 파이프"
 	}
+	"Bigpipe Desc"
+	{
+		"en"	"A skilled Explosion expert mercenary hired by victorian army. He works with two other teammates. \n He will pull out powerful Assault Rifle when he cannot fire his grenade \n(Signalled): Fire Special grenade which will set victims on fire"
+	}
 	"Harbringer"
 	{
 		"en"	"Harbringer"
 		"ko"	"하브링거"
 	}
+	"Harbringer Desc"
+	{
+		"en"	"A skilled mercenary hired by victorian army. He works with two other teammates. \n He will rush in and fire powerful Machine Gun \n(Signalled): Take limited damage per hit"
+	}
 	"Signaller"
 	{
 		"en"	"Victorian Signaller"
 		"ko"	"빅토리아 전령병"
+	}
+	"Harbringer Desc"
+	{
+		"en"	"A skilled mercenary hired by victorian army. He works with two other teammates. \n He will rush in and fire powerful Machine Gun \n(Signalled): Take limited damage per hit"
 	}
 	"Chaos Affected Signaller"
 	{

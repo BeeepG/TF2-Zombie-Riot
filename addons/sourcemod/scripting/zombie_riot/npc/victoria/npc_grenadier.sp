@@ -339,7 +339,11 @@ int VictorianGrenadierSelfDefense(VictorianGrenadier npc, float gameTime, float 
 					npc.FireRocket(vecTarget, RocketDamage, RocketSpeed, "models/workshop/weapons/c_models/c_caber/c_caber.mdl", 1.2);
 				}
 						
-				npc.m_flNextMeleeAttack = gameTime + 1.75;
+				npc.m_flNextMeleeAttack = gameTime + 1.00;
+				if(!NpcStats_VictorianCallToArms(npc.index))
+				{
+					npc.m_flNextMeleeAttack += 0.75;
+				}
 				//Launch something to target, unsure if rocket or something else.
 				//idea:launch fake rocket with noclip or whatever that passes through all
 				//then whereever the orginal goal was, land there.
