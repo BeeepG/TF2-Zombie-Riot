@@ -3554,9 +3554,9 @@
 		"en"	"Victorian Signaller"
 		"ko"	"빅토리아 전령병"
 	}
-	"Harbringer Desc"
+	"Signaller Desc"
 	{
-		"en"	"A skilled mercenary hired by victorian army. He works with two other teammates. \n He will rush in and fire powerful Machine Gun \n(Signalled): Take limited damage per hit"
+		"en"	"A Buffer unit that plays a key role in victorian army. He provides signal buff given by radiotower to his teammates."
 	}
 	"Chaos Affected Signaller"
 	{
@@ -3949,10 +3949,6 @@
 	"Smith"
 	{
 		"en"		"Smith"
-	}
-	"Hijacked Red Pill"
-	{
-		"en"		"Hijacked Red Pill"
 	}
 	"Seaborn Metro Cop"
 	{
