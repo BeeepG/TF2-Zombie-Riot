@@ -1646,7 +1646,7 @@ int HuscarlsSelfDefense(Huscarls npc, float gameTime, int target, float distance
 								if(IsInvuln(targetTrace))
 								{
 									Knocked = true;
-									Custom_Knockback(npc.index, targetTrace, 300.0, true);
+									Custom_Knockback(npc.index, targetTrace, 200.0, true);
 									if(!NpcStats_IsEnemySilenced(npc.index))
 									{
 										TF2_AddCondition(targetTrace, TFCond_LostFooting, 0.25);

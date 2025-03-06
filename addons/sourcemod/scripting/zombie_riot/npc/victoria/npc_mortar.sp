@@ -149,12 +149,12 @@ methodmap VictoriaMortar < CClotBody
 		SetEntProp(npc.m_iWearable1, Prop_Send, "m_nSkin", skin);
 		SetEntityRenderMode(npc.m_iWearable1, RENDER_TRANSCOLOR);
 		SetEntityRenderColor(npc.m_iWearable1, 0, 0, 0, 255);
-		SetVariantString("1.5");
+		SetVariantString("2.0");
 		AcceptEntityInput(npc.m_iWearable1, "SetModelScale");
 		SetEntProp(npc.m_iWearable2, Prop_Send, "m_nSkin", skin);
 		SetEntityRenderMode(npc.m_iWearable2, RENDER_TRANSCOLOR);
 		SetEntityRenderColor(npc.m_iWearable2, 0, 0, 0, 255);
-		SetVariantString("1.5");
+		SetVariantString("2.0");
 		AcceptEntityInput(npc.m_iWearable2, "SetModelScale");
 		SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", skin);
 		SetEntProp(npc.m_iWearable4, Prop_Send, "m_nSkin", skin);
@@ -193,6 +193,7 @@ public void VictoriaMortar_ClotThink(int iNPC)
 		npc.m_flGetClosestTargetTime = GetGameTime(npc.index) + GetRandomRetargetTime();
 	}
 	
+	/*
 	//Swtich modes depending on area.
 	if(npc.m_flWeaponSwitchCooldown < GetGameTime(npc.index))
 	{
@@ -232,6 +233,7 @@ public void VictoriaMortar_ClotThink(int iNPC)
 			}
 		}
 	}
+	*/	
 	if(IsValidEnemy(npc.index, npc.m_iTarget))
 	{
 		float vecTarget[3]; WorldSpaceCenter(npc.m_iTarget, vecTarget );
@@ -317,7 +319,7 @@ int VictoriaMortarSelfDefense(VictoriaMortar npc, float gameTime, float distance
 	//Direct mode
 	if(gameTime > npc.m_flNextMeleeAttack)
 	{
-		if(distance < (NORMAL_ENEMY_MELEE_RANGE_FLOAT_SQUARED * 125.0))
+		if(distance < (NORMAL_ENEMY_MELEE_RANGE_FLOAT_SQUARED * 999.0))
 		{
 			float VecAim[3]; WorldSpaceCenter(npc.m_iTarget, VecAim );
 			npc.FaceTowards(VecAim, 20000.0);
@@ -326,6 +328,22 @@ int VictoriaMortarSelfDefense(VictoriaMortar npc, float gameTime, float distance
 			{
 				npc.m_iTarget = Enemy_I_See;
 				npc.PlayMeleeSound();
+				npc.AddGesture("ACT_MP_ATTACK_STAND_MELEE",_,_,_,0.25);
+				float BombPos[3];
+				float BombDamage = 200.0;
+				GetAbsOrigin(npc.m_iTarget, BombPos);
+				PredictSubjectPositionForProjectiles(npc, npc.m_iTarget, 125.0, _,BombPos);
+				DataPack pack;
+				CreateDataTimer(0.01, Timer_Bomb_Spam, pack, TIMER_FLAG_NO_MAPCHANGE);
+				pack.WriteCell(EntIndexToEntRef(npc.index));
+				pack.WriteFloat(BombPos[0]);
+				pack.WriteFloat(BombPos[1]);
+				pack.WriteFloat(BombPos[2]);
+				pack.WriteFloat(BombDamage);
+				pack.WriteFloat(3.0);
+				pack.WriteFloat(1.0);
+				pack.WriteFloat(150.0);
+				/*
 				float RocketDamage = 200.0;
 				float RocketSpeed = 650.0;
 				if(NpcStats_VictorianCallToArms(npc.index))
@@ -343,7 +361,6 @@ int VictoriaMortarSelfDefense(VictoriaMortar npc, float gameTime, float distance
 					SetEntProp(RocketGet, Prop_Send, "m_bCritical", true);
 					//Reducing gravity, reduces speed, lol.
 					SetEntityGravity(RocketGet, 1.0); 	
-					//I dont care if its not too accurate, ig they suck with the weapon idk lol, lore.
 					PredictSubjectPositionForProjectiles(npc, npc.m_iTarget, RocketSpeed,_,vecTarget);
 					ArcToLocationViaSpeedProjectile(VecStart, vecTarget, SpeedReturn, 1.5, 1.0);
 					SetEntityMoveType(RocketGet, MOVETYPE_FLYGRAVITY);
@@ -360,11 +377,12 @@ int VictoriaMortarSelfDefense(VictoriaMortar npc, float gameTime, float distance
 				//	npc.PlayRangedSound();
 					npc.FireRocket(vecTarget, RocketDamage, RocketSpeed);
 				}
-				
+				*/
+
 				float RocketCooldown = 5.00;
 				if(NpcStats_VictorianCallToArms(npc.index))
 				{
-					RocketCooldown *= 0.2;
+					RocketCooldown *= 0.5;
 				}
 				npc.m_flNextMeleeAttack = gameTime + RocketCooldown;
 				//Launch something to target, unsure if rocket or something else.

@@ -1474,7 +1474,7 @@ int AtomizerSelfDefense(Atomizer npc, float gameTime, int target, float distance
 									{
 										Knocked = true;
 										Custom_Knockback(npc.index, targetTrace, 300.0, true);
-										if(!NpcStats_IsEnemySilenced(npc.index))
+										if(NpcStats_VictorianCallToArms(npc.index))
 										{
 											TF2_AddCondition(targetTrace, TFCond_LostFooting, 0.25);
 											TF2_AddCondition(targetTrace, TFCond_AirCurrent, 0.25);
@@ -1482,7 +1482,7 @@ int AtomizerSelfDefense(Atomizer npc, float gameTime, int target, float distance
 									}
 									else
 									{
-										if(!NpcStats_IsEnemySilenced(npc.index))
+										if(NpcStats_VictorianCallToArms(npc.index))
 										{
 											TF2_AddCondition(targetTrace, TFCond_LostFooting, 0.25);
 											TF2_AddCondition(targetTrace, TFCond_AirCurrent, 0.25);
@@ -1524,6 +1524,11 @@ int AtomizerSelfDefense(Atomizer npc, float gameTime, int target, float distance
 					{
 						time *= 0.5;
 					}
+					if(NpcStats_IsEnemySilenced(npc.index))
+					{
+						time *= 1.5;
+					}
+					
 					npc.m_flAttackHappens = gameTime + time;
 					npc.m_flNextMeleeAttack = gameTime + time;
 					npc.m_flDoingAnimation = gameTime + time;
