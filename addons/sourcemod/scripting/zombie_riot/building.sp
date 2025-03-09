@@ -258,6 +258,12 @@ static void BuildingMenu(int client)
 	
 	int metal = GetAmmo(client, Ammo_Metal);
 	int cash = CurrentCash - CashSpent[client];
+	if(StarterCashMode[client])
+	{
+		int maxCash = StartCash;
+		maxCash -= CashSpentLoadout[client];
+		cash = maxCash;
+	}
 	float multi = Object_GetMaxHealthMulti(client);
 	float gameTime = GetGameTime();
 	bool ducking = view_as<bool>(GetClientButtons(client) & IN_DUCK);
@@ -441,6 +447,7 @@ static int BuildingMenuH(Menu menu, MenuAction action, int client, int choice)
 						{
 							CashSpent[client] += AmmoData[Ammo_Metal][0];
 							CashSpentTotal[client] += AmmoData[Ammo_Metal][0];
+							CashSpentLoadout[client] += AmmoData[Ammo_Metal][0];
 							ClientCommand(client, "playgamesound \"mvm/mvm_bought_upgrade.wav\"");
 							
 							int ammo = GetAmmo(client, Ammo_Metal) + AmmoData[Ammo_Metal][1];
@@ -451,6 +458,7 @@ static int BuildingMenuH(Menu menu, MenuAction action, int client, int choice)
 						{
 							CashSpent[client] += AmmoData[Ammo_Metal][0] * 10;
 							CashSpentTotal[client] += AmmoData[Ammo_Metal][0] * 10;
+							CashSpentLoadout[client] += AmmoData[Ammo_Metal][0] * 10;
 							ClientCommand(client, "playgamesound \"mvm/mvm_bought_upgrade.wav\"");
 							
 							int ammo = GetAmmo(client, Ammo_Metal) + (AmmoData[Ammo_Metal][1] * 10);
@@ -651,7 +659,9 @@ void Building_ShowInteractionHud(int client, int entity)
 			if(dieingstate[entity] > 0 && IsPlayerAlive(client))
 			{
 				SetGlobalTransTarget(client);
-				PrintCenterText(client, "%t", "Revive Teammate tooltip");
+				char ButtonDisplay[255];
+				PlayerHasInteract(client, ButtonDisplay, sizeof(ButtonDisplay));
+				PrintCenterText(client, "%s%t", ButtonDisplay,"Revive Teammate tooltip");
 				return;
 			}
 			entity = EntRefToEntIndex(Building_Mounted[entity]);
@@ -691,7 +701,9 @@ void Building_ShowInteractionHud(int client, int entity)
 				{
 					Hide_Hud = false;
 					SetGlobalTransTarget(client);
-					PrintCenterText(client, "%t", "Claim this building");
+					char ButtonDisplay[255];
+					PlayerHasInteract(client, ButtonDisplay, sizeof(ButtonDisplay));
+					PrintCenterText(client, "%s%t", ButtonDisplay,"Claim this building");
 				}
 				else if(Building_Collect_Cooldown[entity][client] > GetGameTime())
 				{

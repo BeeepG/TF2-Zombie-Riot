@@ -1202,26 +1202,28 @@ void Store_PackMenu(int client, int index, int entity, int owner)
 						maxCash -= CashSpentLoadout[client];
 						cash = maxCash;
 					}
+					SetGlobalTransTarget(client);
 					char buf[64];
 					if(StarterCashMode[client])
 						Format(buf, sizeof(buf), "%t", "Loadout Credits", cash);
 					else
 						Format(buf, sizeof(buf), "%t", "Credits", cash);
 
-					SetGlobalTransTarget(client);
 					menu.SetTitle("%t\n \n%s\n \n%s\n ", "TF2: Zombie Riot", buf, TranslateItemName(client, item.Name, info.Custom_Name));
 					
 					int skip = info.PackSkip;
 					count += skip;
 
 					char data[64], buffer[64];
+					/*
 					if(count > 1)
 					{
 						zr_tagwhitelist.GetString(buffer, sizeof(buffer));
 						if(StrContains(buffer, "realtime") != -1)
 							count = 1;
 					}
-					
+					What in the god damn?!
+					*/
 					int userid = (client == owner || owner == -1) ? -1 : GetClientUserId(owner);
 					
 					for(int i = skip; i < count; i++)
@@ -1352,7 +1354,7 @@ public int Store_PackMenuH(Menu menu, MenuAction action, int client, int choice)
 						Store_GiveAll(client, GetClientHealth(client));
 						owner = GetClientOfUserId(values[3]);
 						if(IsValidClient(owner))
-							Building_GiveRewardsUse(client, owner, 250, true, 5.0, true);
+							Building_GiveRewardsUse(client, owner, 150, true, 4.0, true);
 					}
 				}
 				
@@ -1424,6 +1426,7 @@ void Store_Reset()
 		StarterCashMode[c] = true;
 		CashSpent[c] = 0;
 		CashSpentTotal[c] = 0;
+		CashSpentLoadout[c] = 0;
 	}
 	static Item item;
 	int length = StoreItems.Length;
@@ -4265,6 +4268,12 @@ public int Store_MenuItem(Menu menu, MenuAction action, int client, int choice)
 				{
 					int cash = CurrentCash - CashSpent[client];
 					
+					if(StarterCashMode[client])
+					{
+						int maxCash = StartCash;
+						maxCash -= CashSpentLoadout[client];
+						cash = maxCash;
+					}
 					if(ClientTutorialStep(client) == 2)
 					{
 						SetClientTutorialStep(client, 3);
@@ -4316,7 +4325,7 @@ public int Store_MenuItem(Menu menu, MenuAction action, int client, int choice)
 						{
 							CashSpent[client] += AmmoData[info.Ammo][0];
 							CashSpentTotal[client] += AmmoData[info.Ammo][0];
-							CashSpentLoadout[client] += AmmoData[info.AmmoBuyMenuOnly][0];
+							CashSpentLoadout[client] += AmmoData[info.Ammo][0];
 							ClientCommand(client, "playgamesound \"mvm/mvm_bought_upgrade.wav\"");
 							
 							int ammo = GetAmmo(client, info.Ammo) + AmmoData[info.Ammo][1];
@@ -4510,6 +4519,12 @@ public int Store_MenuItem(Menu menu, MenuAction action, int client, int choice)
 					if(item.Owned[client])
 					{
 						int cash = CurrentCash - CashSpent[client];
+						if(StarterCashMode[client])
+						{
+							int maxCash = StartCash;
+							maxCash -= CashSpentLoadout[client];
+							cash = maxCash;
+						}
 						int level = item.Owned[client] - 1;
 						if(item.ParentKit || level < 0)
 							level = 0;
