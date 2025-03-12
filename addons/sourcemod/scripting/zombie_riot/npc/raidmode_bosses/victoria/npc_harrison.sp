@@ -357,7 +357,22 @@ methodmap Harrison < CClotBody
 			b_NoKnockbackFromSources[npc.index] = true;
 			b_ThisEntityIgnored[npc.index] = true;
 			b_NoKillFeed[npc.index] = true;
-			CPrintToChatAll("{skyblue}Harrison{default}: I see you Intruders.");
+			switch(GetRandomInt(0,2))
+			{
+				case 0:
+				{
+					CPrintToChatAll("{skyblue}Harrison{default}: I see you Intruders.");
+				}
+				case 1:
+				{
+					CPrintToChatAll("{skyblue}Harrison{default}: Rockets delivered.");
+				}
+				case 2:
+				{
+					CPrintToChatAll("{skyblue}Harrison{default}: Why do you even need my help if you got some better rockets...");
+				}
+			}
+			
 		}
 		else
 		{

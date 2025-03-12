@@ -1749,15 +1749,15 @@ static void Atomizer_Weapon_Lines(Atomizer npc, int client)
 
 	switch(i_CustomWeaponEquipLogic[weapon])
 	{
-		/*case WEAPON_SEABORNMELEE: switch(GetRandomInt(0,3)){
-			case 0: Format(Text_Lines, sizeof(Text_Lines), "Damn it! {darkblue}Seaborn{default} is here Again!");
-			case 1: Format(Text_Lines, sizeof(Text_Lines), "ha. {darkblue}Seaborn{default}!?");
-			case 2: Format(Text_Lines, sizeof(Text_Lines), "I found an {darkblue}Infected{default} person, I need a Backup!");
-			case 3: Format(Text_Lines, sizeof(Text_Lines), "{gold}%N{default}? I knew it, you {darkblue}Seaborn{default} Bastard!", client);}
+		case WEAPON_VICTORIAN_LAUNCHER: switch(GetRandomInt(0,3)){
+			case 0: Format(Text_Lines, sizeof(Text_Lines), "Pfft, you seriously call that 'Victorian' launcher? {gold}%N{default}?", client);
+			case 1: Format(Text_Lines, sizeof(Text_Lines), "Oh isn't that a weapon that we gave to Iberians years ago? Never expected to see it here...");
+			case 2: Format(Text_Lines, sizeof(Text_Lines), "A weapon that doesn't even have our enhanced technology in it. HA!");
+			case 3: Format(Text_Lines, sizeof(Text_Lines), "{gold}%N{default}? How did you get that weapon in your hand?", client);}
 		case WEAPON_EXPLORER: switch(GetRandomInt(0,2)){
 			case 0: Format(Text_Lines, sizeof(Text_Lines), "{purple}Void{default}...");
 			case 1: Format(Text_Lines, sizeof(Text_Lines), "HQ? There's a serious problem. He's using the {purple}Void{default}.");
-			case 2: Format(Text_Lines, sizeof(Text_Lines), "{gold}%N{default}, You're going to pay a price for bringing {purple}Void{default} into Victoria!", client);}*/
+			case 2: Format(Text_Lines, sizeof(Text_Lines), "{gold}%N{default}, You're going to pay a price for bringing {purple}Void{default} back into Victoria!", client);}
 		default:
 		{
 			valid = false;

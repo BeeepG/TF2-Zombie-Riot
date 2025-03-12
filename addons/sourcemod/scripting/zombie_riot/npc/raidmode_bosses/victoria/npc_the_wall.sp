@@ -620,7 +620,7 @@ static void Internal_ClotThink(int iNPC)
 			switch(GetRandomInt(0, 2))
 			{
 				case 0:CPrintToChatAll("{lightblue}Huscarls{default}: This is your grave.");
-				case 1:CPrintToChatAll("{lightblue}Huscarls{default}: It's really Easy");
+				case 1:CPrintToChatAll("{lightblue}Huscarls{default}: This is piss sasy");
 				case 2:CPrintToChatAll("{lightblue}Huscarls{default}: You'll never see {gold}Victoria{default} again.");
 			}
 		}
@@ -649,11 +649,11 @@ static void Internal_ClotThink(int iNPC)
 		int MaxHealth = RoundToCeil(GetEntProp(npc.index, Prop_Data, "m_iMaxHealth")*1.5);
 		SetEntProp(npc.index, Prop_Data, "m_iHealth", MaxHealth);
 		SetEntProp(npc.index, Prop_Data, "m_iMaxHealth", MaxHealth);
-		switch(GetRandomInt(0, 1))
+		switch(GetRandomInt(0, 2))
 		{
 			case 0:CPrintToChatAll("{lightblue}Huscarls{default}: Ok. Enough. {crimson}Time to Finish.{default}");
 			case 1:CPrintToChatAll("{lightblue}Huscarls{default}: {blue}Atomizer{default}? I'm done dealing with the intruder you missed. You have to pay for the beer instead.");
-			//case 2:CPrintToChatAll("{lightblue}Huscarls{default}: {blue}Harrison{default}? The situation is over. Let's go back.");
+			case 2:CPrintToChatAll("{lightblue}Huscarls{default}: {blue}Harrison{default}? The situation is over. Let's go back.");
 		}
 		float pos[3]; GetEntPropVector(npc.index, Prop_Data, "m_vecAbsOrigin", pos);
 		for(int i; i<16; i++)
@@ -1062,6 +1062,7 @@ static Action Internal_OnTakeDamage(int victim, int &attacker, int &inflictor, f
 		{
 			if(BlastArmor[npc.index])
 			{
+				CPrintToChatAll("{lightblue}Huscarls{default}: You got some fine explosives over there huh? I got some armor from bulldozers.");
 				damage *= 0.75;
 				damagePosition[2] += 65.0;
 				npc.DispatchParticleEffect(npc.index, "medic_resist_match_blast_blue", damagePosition, NULL_VECTOR, NULL_VECTOR);
@@ -1073,6 +1074,7 @@ static Action Internal_OnTakeDamage(int victim, int &attacker, int &inflictor, f
 		{
 			if(MagicArmor[npc.index])
 			{
+				CPrintToChatAll("{lightblue}Huscarls{default}: I fought worse things compared to your magical bullcrap.");
 				damage *= 0.75;
 				damagePosition[2] += 65.0;
 				npc.DispatchParticleEffect(npc.index, "medic_resist_match_fire_blue", damagePosition, NULL_VECTOR, NULL_VECTOR);
@@ -1084,6 +1086,7 @@ static Action Internal_OnTakeDamage(int victim, int &attacker, int &inflictor, f
 		{
 			if(BulletArmor[npc.index])
 			{
+				CPrintToChatAll("{lightblue}Huscarls{default}: Those bullets and sticks won't hurt me now. Why waste bullets on me?");
 				damage *= 0.75;
 				damagePosition[2] += 65.0;
 				npc.DispatchParticleEffect(npc.index, "medic_resist_match_bullet_blue", damagePosition, NULL_VECTOR, NULL_VECTOR);
@@ -1270,7 +1273,26 @@ int HuscarlsSelfDefense(Huscarls npc, float gameTime, int target, float distance
 		{
 			case 0:
 			{
-				CPrintToChatAll("{lightblue}Huscarls{default}: Hit me. I DARE YOU.");
+				switch(GetRandomInt(0,3))
+				{
+					case 0:
+					{
+						CPrintToChatAll("{lightblue}Huscarls{default}: Hit me. I DARE YOU.");
+					}
+					case 1:
+					{
+						CPrintToChatAll("{lightblue}Huscarls{default}: Armor up. Going in.");
+					}
+					case 2:
+					{
+						CPrintToChatAll("{lightblue}Huscarls{default}: Your bullets and explosives hurts less now.");
+					}
+					case 3:
+					{
+						CPrintToChatAll("{lightblue}Huscarls{default}: Let's see what manly weapons you got.");
+					}
+				}
+				
 				NPC_StopPathing(npc.index);
 				npc.m_bPathing = false;
 				npc.m_bisWalking = false;
@@ -1315,7 +1337,26 @@ int HuscarlsSelfDefense(Huscarls npc, float gameTime, int target, float distance
 			{
 				if(npc.m_flHuscarlsAdaptiveArmorDuration < gameTime)
 				{
-					CPrintToChatAll("{lightblue}Huscarls{default}: Come closer, I will give you this back.");
+					switch(GetRandomInt(0,3))
+					{
+						case 0:
+						{
+							CPrintToChatAll("{lightblue}Huscarls{default}: Come closer, I will give you this back.");
+						}
+						case 1:
+						{
+							CPrintToChatAll("{lightblue}Huscarls{default}: Results? They don't even hurt a bit.");
+						}
+						case 2:
+						{
+							CPrintToChatAll("{lightblue}Huscarls{default}: Pathetic shots");
+						}
+						case 3:
+						{
+							CPrintToChatAll("{lightblue}Huscarls{default}: Was that your best move? I got WORSE");
+						}
+					}
+					
 					int maxhealth = ReturnEntityMaxHealth(npc.index);
 					float MAXCharger = (DynamicCharger[npc.index]/(float(maxhealth)*0.05))*0.05;
 					if(MAXCharger > 0.05)MAXCharger = 0.05;
@@ -1402,6 +1443,21 @@ int HuscarlsSelfDefense(Huscarls npc, float gameTime, int target, float distance
 				npc.m_flDoingAnimation = gameTime + 1.0;
 				Delay_Attribute[npc.index] = gameTime + 1.1;
 				I_cant_do_this_all_day[npc.index] = 1;
+				switch(GetRandomInt(0,2))
+				{
+					case 0:
+					{
+						CPrintToChatAll("{lightblue}Huscarls{default}: Let me show you my new move.");
+					}
+					case 1:
+					{
+						CPrintToChatAll("{lightblue}Huscarls{default}: Rushmode activated.");
+					}
+					case 2:
+					{
+						CPrintToChatAll("{lightblue}Huscarls{default}: Ready to be tackled?");
+					}
+				}
 			}
 			case 1:
 			{

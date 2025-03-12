@@ -778,6 +778,21 @@ static void Internal_ClotThink(int iNPC)
 		{
 			case 0:
 			{
+				switch(GetRandomInt(0,2))
+				{
+					case 0:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: Dammit! I cannot waste this much time in this crappy battlements!");
+					}
+					case 1:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: Alright! Time to go all in!");
+					}
+					case 2:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: You don't seem to give up do you? I will show you some real pain!");
+					}
+				}
 				NPC_StopPathing(npc.index);
 				npc.m_bPathing = false;
 				npc.m_bisWalking = false;
@@ -976,9 +991,9 @@ static void Internal_NPCDeath(int entity)
 
 	switch(GetRandomInt(0,2))
 	{
-		case 0:CPrintToChatAll("{blue}Castellan{default}: Ugh, I need backup");
+		case 0:CPrintToChatAll("{blue}Castellan{default}: I'll be back with more reinforcements");
 		case 1:CPrintToChatAll("{blue}Castellan{default}: I will never let you trample over the glory of {gold}Victoria{default} Again!");
-		case 2:CPrintToChatAll("{blue}Castellan{default}: You intruders will soon face the {crimson}Real Deal.{default}");
+		case 2:CPrintToChatAll("{blue}Castellan{default}: Quite unbeliveable.");
 	}
 
 }
@@ -1072,7 +1087,21 @@ static int CastellanSelfDefense(Castellan npc, float gameTime, int target, float
 {
 	if(npc.m_flTimeUntillSupportSpawn < gameTime)
 	{
-		CPrintToChatAll("{blue}Castellan{default}: Comeon boys, I need some support.");
+		switch(GetRandomInt(0,2))
+		{
+			case 0:
+			{
+				CPrintToChatAll("{blue}Castellan{default}: Comeon boys, I need some support.");
+			}
+			case 1:
+			{
+				CPrintToChatAll("{blue}Castellan{default}: Teleport in. This is a chance for your greatness.");
+			}
+			case 2:
+			{
+				CPrintToChatAll("{blue}Castellan{default}: They are disarmed. Teleport in now!");
+			}
+		}
 		float SelfPos[3];
 		GetEntPropVector(npc.index, Prop_Data, "m_vecAbsOrigin", SelfPos);
 		npc.m_flTimeUntillSupportSpawn = gameTime + 20.0;
@@ -1095,6 +1124,21 @@ static int CastellanSelfDefense(Castellan npc, float gameTime, int target, float
 				npc.m_flDoingAnimation = gameTime + 0.5;	
 				Delay_Attribute[npc.index] = gameTime + 0.5;
 				I_cant_do_this_all_day[npc.index]=1;
+				switch(GetRandomInt(0,2))
+				{
+					case 0:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: Support fire incoming.");
+					}
+					case 1:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: Taste the piece of fine technology of Victoria!");
+					}
+					case 2:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: Precious Fragments up!");
+					}
+				}
 			}
 			case 1:
 			{
@@ -1164,6 +1208,17 @@ static int CastellanSelfDefense(Castellan npc, float gameTime, int target, float
 				npc.m_flDoingAnimation = gameTime + 0.5;	
 				Delay_Attribute[npc.index] = gameTime + 0.5;
 				I_cant_do_this_all_day[npc.index]=1;
+				switch(GetRandomInt(0,1))
+				{
+					case 0:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: I would like some heals.");
+					}
+					case 1:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: These drones are quite expensive, but they are worth it.");
+					}
+				}
 			}
 			case 1:
 			{
@@ -1390,7 +1445,22 @@ static int CastellanSelfDefense(Castellan npc, float gameTime, int target, float
 		{
 			case 0:
 			{
-				CPrintToChatAll("{blue}Castellan{default}: These rockets won't miss you");
+				switch(GetRandomInt(0,2))
+				{
+					case 0:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: These rockets won't miss you");
+					}
+					case 1:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: I got some worse rockets for you");
+					}
+					case 2:
+					{
+						CPrintToChatAll("{blue}Castellan{default}: They will find wherever you are");
+					}
+				}
+				
 				NPC_StopPathing(npc.index);
 				npc.m_bPathing = false;
 				npc.m_bisWalking = false;
