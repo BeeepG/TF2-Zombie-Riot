@@ -641,7 +641,7 @@ static void Internal_ClotThink(int iNPC)
 		if(!npc.m_fbGunout)
 		{
 			npc.m_fbGunout = true;
-			switch(GetRandomInt(0,2))
+			switch(GetRandomInt(0,3))
 			{
 				case 0:
 				{
@@ -655,6 +655,10 @@ static void Internal_ClotThink(int iNPC)
 				{
 					CPrintToChatAll("{blue}Atomizer{default}: All of your comrades are fallen.");
 				}
+				case 3:
+				{
+					CPrintToChatAll("{blue}Atomizer{default}: Seriously? I was just getting warmed up!");
+				}
 			}
 		}
 	}
@@ -667,7 +671,26 @@ static void Internal_ClotThink(int iNPC)
 		func_NPCThink[npc.index] = INVALID_FUNCTION;
 		BlockLoseSay = true;
 		
-		CPrintToChatAll("{blue}Atomizer{default}: Mission Accomplished, we will figure out who is behind them");
+		switch(GetRandomInt(0,3))
+		{
+			case 0:
+			{
+				CPrintToChatAll("{blue}Atomizer{default}: Mission Accomplished, we will figure out who is behind them");
+			}
+			case 1:
+			{
+				CPrintToChatAll("{blue}Atomizer{default}: Ha, I can now return to the frontline");
+			}
+			case 2:
+			{
+				CPrintToChatAll("{blue}Atomizer{default}: Shame on you.");
+			}
+			case 3:
+			{
+				CPrintToChatAll("{blue}Atomizer{default}: Better luck next time if you have one.");
+			}
+		}
+		
 		return;
 	}
 	npc.m_flSpeed = 300.0+(((FTL[npc.index]-(RaidModeTime - GetGameTime()))/FTL[npc.index])*150.0);
