@@ -253,6 +253,7 @@ enum
     WEAPON_KIT_PURGE_RAMPAGER = 161,
     WEAPON_KIT_PURGE_ANNAHILATOR = 162,
     WEAPON_KIT_PURGE_MISC = 163,
+	WEAPON_BOMB_AR = 164,
 }
 
 enum
@@ -642,6 +643,7 @@ float fl_MatrixReflect[MAXENTITIES];
 #include "custom/wand/weapon_wand_sigil_blade.sp"
 #include "custom/kit_omega.sp"
 #include "custom/kit_purging.sp"
+#include "custom/weapon_bombplant_smg.sp"
 
 void ZR_PluginLoad()
 {
