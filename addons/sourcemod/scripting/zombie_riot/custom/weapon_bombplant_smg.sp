@@ -36,20 +36,20 @@ public void ExploAR_M1(int client, int weapon, bool crit, int slot)
 
 	for (int counter = 1; counter <= Projectiles_per_Shot;)
 	{
-		if(Overheat_Mode[client])
+		if(Can_I_Fire[client])
 		{
 			CreateTimer(0.1, Can_I_FIre, _, TIMER_REPEAT);
 			EmitSoundToAll("weapons/capper_shoot.wav", client, _, 65, _, 0.45);
 			Wand_Projectile_Spawn(client, speed, time, damage, 8/*Default wand*/, weapon, "raygun_projectile_blue_trail");
 			counter += 1;
-			Overheat_Mode[client]=false;
+			Can_I_Fire[client]=false;
 		}	
 	}
 }
 
-public Action Can_I_FIre(Handle timer)
+public Action Can_I_FIre(Handle timer, int client)
 {
-    Overheat_Mode[client]=true;
+    Can_I_Fire[client]=true;
 }
 
 public void Gun_BombARTouch(int entity, int target)
@@ -179,6 +179,7 @@ static Action Timer_Management_ExploAR(Handle timer, DataPack pack)
 	else
 	{
 		DestroyExploAREffect(client);
+		Can_I_Fire[client] = true;
 	}
 
 	return Plugin_Continue;
@@ -236,17 +237,14 @@ static Action Timer_Bool_ExploAR(Handle timer, any userid)
 	b_AbilityActivated[client] = false;
 	return Plugin_Stop;
 }
+*/
 
 static void CreateExploAREffect(int client)
 {
 	int new_ammo = GetAmmo(client, 8);
 	if(ExploAR_HUDDelay[client] < GetGameTime())
 	{
-		if(Change[client])
-			PrintHintText(client,"Mode: BLAST / Blast Shells: %i", new_ammo);
-		else
 			PrintHintText(client,"Mode: PIERCE / Blast Shells: %i", new_ammo);
-
 		
 		ExploAR_HUDDelay[client] = GetGameTime() + 0.5;
 	}
@@ -278,4 +276,3 @@ static void DestroyExploAREffect(int client)
 		RemoveEntity(entity);
 	i_VictoriaParticle[client] = INVALID_ENT_REFERENCE;
 }
-*/
