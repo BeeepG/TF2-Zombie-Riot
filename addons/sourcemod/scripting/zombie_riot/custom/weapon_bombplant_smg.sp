@@ -34,7 +34,7 @@ public void ExploAR_M1(int client, int weapon, bool crit, int slot)
 
 	float time = 5000.0/speed;
 
-	for (int counter = 1; counter <= Projectiles_per_Shot)
+	for (int counter = 1; counter <= Projectiles_per_Shot;)
 	{
 		if(Overheat_Mode[client])
 		{
