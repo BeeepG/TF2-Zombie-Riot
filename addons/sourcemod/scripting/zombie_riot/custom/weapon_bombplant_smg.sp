@@ -4,6 +4,7 @@ static Handle h_TimerExploARWeaponManagement[MAXPLAYERS] = {null, ...};
 static int i_VictoriaParticle[MAXPLAYERS];
 static int ExploAR_WeaponPap[MAXPLAYERS];
 static bool b_AbilityActivated[MAXPLAYERS];
+static int i_Current_Pap[MAXPLAYERS+1] = {0, ...};
 
 static float ExploAR_HUDDelay[MAXPLAYERS];
 static bool Can_I_Fire[MAXPLAYERS];
@@ -26,7 +27,7 @@ static void ExploAR_Map_Precache() //Anything that needs to be precaced like sou
 	PrecacheSound("weapons/sniper_railgun_bolt_back.wav");
 }
 
-public void Firebullet(int client, int weapon, bool crit, int slot)
+public void Firebullet(int client, int weapon)
 {
 	float damage = 500.0;
 	damage *=Attributes_Get(weapon, 2, 1.0);
