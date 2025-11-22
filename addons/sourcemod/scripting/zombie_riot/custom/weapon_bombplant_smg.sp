@@ -128,6 +128,17 @@ public void Gun_BombARTouch(int entity, int target)
 		}
 		EmitSoundToAll(SOUND_ZAP, entity, SNDCHAN_STATIC, 65, _, 0.65);
 		RemoveEntity(entity);
+
+		float damage = 1.5;
+		damage *=Attributes_Get(weapon, 2, 1.0);
+
+		if(!b_NpcIsInvulnerable[target])
+		{
+			f_BombEntityWeaponDamageApplied[target][owner] += damage * 0.133333;
+			i_HowManyBombsOnThisEntity[target][owner]++;
+			i_HowManyBombsHud[target]++;
+			Apply_Particle_Teroriser_Indicator(target);
+		}
 	}
 	else if(target == 0)
 	{
