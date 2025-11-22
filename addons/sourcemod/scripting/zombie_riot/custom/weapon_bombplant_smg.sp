@@ -3,6 +3,7 @@
 static Handle h_TimerExploARWeaponManagement[MAXPLAYERS] = {null, ...};
 static int i_VictoriaParticle[MAXPLAYERS];
 static int ExploAR_WeaponPap[MAXPLAYERS];
+static bool b_AbilityActivated[MAXPLAYERS];
 
 static float ExploAR_HUDDelay[MAXPLAYERS];
 static bool Can_I_Fire[MAXPLAYERS];
@@ -25,31 +26,82 @@ static void ExploAR_Map_Precache() //Anything that needs to be precaced like sou
 	PrecacheSound("weapons/sniper_railgun_bolt_back.wav");
 }
 
-public void ExploAR_M1(int client, int weapon, bool crit, int slot)
+public void Firebullet(int client, int weapon, bool crit, int slot)
 {
-	float damage = 500;
+	float damage = 500.0;
 	damage *=Attributes_Get(weapon, 2, 1.0);
 	float speed = 3500.0;
 	speed *=Attributes_Get(weapon, 103, 1.0);
 
 	float time = 5000.0/speed;
 
-	for (int counter = 1; counter <= Projectiles_per_Shot;)
+	EmitSoundToAll("weapons/capper_shoot.wav", client, _, 65, _, 0.45);
+	Wand_Projectile_Spawn(client, speed, time, damage, 8/*Default wand*/, weapon, "raygun_projectile_blue_trail");
+}
+
+public void BombAR_M1_Attack(int client, int weapon, bool crit, int slot)
+{
+	i_Current_Pap[client] = ExplosiveAR_Get_Pap(weapon); //I stole this from Artvin's Boomerang code. Thanks Artvin...
+	switch (i_Current_Pap[client])
 	{
-		if(Can_I_Fire[client])
+		case 0: //base pap
 		{
-			CreateTimer(0.1, Can_I_FIre, _, TIMER_REPEAT);
-			EmitSoundToAll("weapons/capper_shoot.wav", client, _, 65, _, 0.45);
-			Wand_Projectile_Spawn(client, speed, time, damage, 8/*Default wand*/, weapon, "raygun_projectile_blue_trail");
-			counter += 1;
-			Can_I_Fire[client]=false;
-		}	
+			ExplosiveAR_Fire_Multiple_Rounds(client, weapon, 2);
+		}
+		case 1: //base pap
+		{
+			ExplosiveAR_Fire_Multiple_Rounds(client, weapon, 4);
+		}
+	}
+	EmitSoundToAll(BOOMERANG_FIRE_SOUND, client, SNDCHAN_AUTO, 75, _, 0.85, 110);
+}
+
+static int ExplosiveAR_Get_Pap(int weapon)
+{
+	int pap=0;
+	pap = RoundFloat(Attributes_Get(weapon, 122, 0.0));
+	return pap;
+}
+
+public void ExplosiveAR_Fire_Multiple_Rounds(int client, int weapon, int FireMultiple)
+{		
+	int FrameDelayAdd = 5;
+	float Attackspeed = Attributes_Get(weapon, 6, 1.0);
+	Attackspeed *= 0.5;
+
+	FrameDelayAdd = RoundToNearest(float(FrameDelayAdd) * Attackspeed);
+	for(int LoopFire ; LoopFire <= FireMultiple; LoopFire++)
+	{
+		DataPack pack = new DataPack();
+		pack.WriteCell(EntIndexToEntRef(client));
+		pack.WriteCell(EntIndexToEntRef(weapon));
+		if(LoopFire == 0)
+			pack.WriteCell(0);
+		else
+			pack.WriteCell(1);
+
+		if(LoopFire == 0)
+			Weapon_ExplosiveAR_FireInternal(pack);
+		else
+			RequestFrames(Weapon_ExplosiveAR_FireInternal, RoundToNearest(float(FrameDelayAdd) * LoopFire), pack);
 	}
 }
 
-public Action Can_I_FIre(Handle timer, int client)
-{
-    Can_I_Fire[client]=true;
+public void Weapon_ExplosiveAR_FireInternal(DataPack DataDo)
+{		
+	DataDo.Reset();
+	int client = EntRefToEntIndex(DataDo.ReadCell());
+	int weapon = EntRefToEntIndex(DataDo.ReadCell());
+	bool soundDo = DataDo.ReadCell();
+	delete DataDo;
+
+	if(!IsValidEntity(weapon) || !IsValidClient(client))
+		return;
+
+	if(soundDo)
+		EmitSoundToAll("weapons/capper_shoot.wav", client, SNDCHAN_AUTO, 75, _, 0.85, 110);
+
+	Firebullet(client, weapon);
 }
 
 public void Gun_BombARTouch(int entity, int target)
