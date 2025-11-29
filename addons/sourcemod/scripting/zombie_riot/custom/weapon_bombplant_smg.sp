@@ -8,6 +8,7 @@ static int i_Current_Pap[MAXPLAYERS+1] = {0, ...};
 
 static float ExploAR_HUDDelay[MAXPLAYERS];
 static bool Can_I_Fire[MAXPLAYERS];
+static float f_rest_time[MAXPLAYERS];
 
 #define Projectiles_per_Shot 10
 
@@ -15,6 +16,7 @@ void ResetMapStartExploARWeapon()
 {
 	ExploAR_Map_Precache();
 	Zero(Can_I_Fire);
+	Zero(f_rest_time);
 }
 
 static void ExploAR_Map_Precache() //Anything that needs to be precaced like sounds or something.
@@ -55,6 +57,10 @@ public void BombAR_M1_Attack(int client, int weapon, bool crit, int slot)
 		}
 	}
 	EmitSoundToAll(BOOMERANG_FIRE_SOUND, client, SNDCHAN_AUTO, 75, _, 0.85, 110);
+
+	float GameTime = GetGameTime();
+	f_rest_time[client] = GameTime + Attributes_Get(weapon, 6, 1.0) *0.4;	//make the rest timer scale on firerate.
+	//so a "weapon fires too slow" case doesn't happen and completely fuck over the weapon!
 }
 
 static int ExplosiveAR_Get_Pap(int weapon)
@@ -110,6 +116,7 @@ public void Gun_BombARTouch(int entity, int target)
 	int particle = EntRefToEntIndex(i_WandParticle[entity]);
 	if (target > 0)	
 	{
+
 		//Code to do damage position and ragdolls
 		static float angles[3];
 		GetEntPropVector(entity, Prop_Send, "m_angRotation", angles);
@@ -129,13 +136,20 @@ public void Gun_BombARTouch(int entity, int target)
 		EmitSoundToAll(SOUND_ZAP, entity, SNDCHAN_STATIC, 65, _, 0.65);
 		RemoveEntity(entity);
 
-		float damage = 1.5;
+		float GameTime = GetGameTime();
+
+		if(f_rest_time[owner] < GameTime)
+		{
+			Cause_Terroriser_Explosion(owner, entity);
+		}
+
+		float damage = 500.0;
 		damage *=Attributes_Get(weapon, 2, 1.0);
 
 		if(!b_NpcIsInvulnerable[target])
 		{
-			f_BombEntityWeaponDamageApplied[target][owner] += damage * 0.133333;
-			i_HowManyBombsOnThisEntity[target][owner]++;
+			f_BombEntityWeaponDamageApplied[target][entity] += damage / 12;
+			i_HowManyBombsOnThisEntity[target][entity]++;
 			i_HowManyBombsHud[target]++;
 			Apply_Particle_Teroriser_Indicator(target);
 		}
