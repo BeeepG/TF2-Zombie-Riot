@@ -3244,6 +3244,12 @@
 		"ru"		"Компаньоны Гюльна"
 		"ko"		"굴른의 부대원들"
 	}
+	"PMC contract"
+	{
+		"en"		"Contract for Victorian PMC"
+		"ru"		"Компаньоны Гюльна"
+		"ko"		"굴른의 부대원들"
+	}
 	"Builder Gear"
 	{
 		"en"	   "Builder Gear"

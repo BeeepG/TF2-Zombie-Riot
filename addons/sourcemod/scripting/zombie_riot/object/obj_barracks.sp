@@ -391,6 +391,7 @@ enum
 	Combine = 3,
 	Iberia_Thorns = 4,
 	Iberia_Thornless = 5,
+	Victoria = 6,
 	Civ_number_2
 }
 
@@ -537,6 +538,58 @@ static const char SummonerCombineNPC[][] =
 };
 
 static int SummonerCombine[][] =
+{
+	// NPC Index, Wood, Food, Gold, Time, Level, Supply, Requirement
+	
+	{ 0, 5, 20, 0, 5, 1, 1, 0,ZR_BARRACKS_TROOP_CLASSES },		// None
+	{ 0, 40, 10, 0, 7, 2, 1, 0,ZR_BARRACKS_TROOP_CLASSES  },		// Construction Novice
+	
+	{ 0, 10, 35, 0, 5, 4, 1, 0,ZR_BARRACKS_TROOP_CLASSES  },	// Construction Apprentice
+	{ 0, 70, 20, 0, 8, 4, 1, 0,ZR_BARRACKS_TROOP_CLASSES  },	// Construction Apprentice
+	
+	{ 0, 20, 60, 0, 6, 7, 1, 0,ZR_BARRACKS_TROOP_CLASSES  },	// Construction Worker
+	{ 0, 190, 50, 0, 9, 7, 1, 0,ZR_BARRACKS_TROOP_CLASSES },	// Construction Worker
+	
+	{ 0, 50, 150, 0, 7, 11, 1, 0,ZR_BARRACKS_TROOP_CLASSES  },	// Construction Expert
+	{ 0, 260, 75, 0, 10, 11, 1, 0,ZR_BARRACKS_TROOP_CLASSES  },	// Construction Master
+	
+	{ 0, 750, 750, 	0, 	25, 11, 1, ZR_BARRACKS_UPGRADES_ASSIANT_VILLAGER,0  },	// Construction Expert
+	{ 0, 600, 600, 	30, 30, 16, 1, ZR_BARRACKS_UPGRADES_CASTLE,ZR_BARRACKS_TROOP_CLASSES },	// Construction Master
+	
+	{ 0, 600, 200, 20, 20, 16, 1, 0,ZR_BARRACKS_TROOP_CLASSES },	// Construction Master
+	{ 0, 200, 600, 20, 20, 16, 1, 0,ZR_BARRACKS_TROOP_CLASSES }, // Contruction Master
+
+	{ 0, 300, 100, 0, 10, 16, 1, 0,ZR_BARRACKS_TROOP_CLASSES },	// Construction Master
+	{ 0, 100, 300, 0, 9, 16, 1, 0,ZR_BARRACKS_TROOP_CLASSES  }	// Construction Master
+	
+};
+
+static const char SummonerVictoriaNPC[][] =
+{
+	
+	"npc_barrack_combine_smg",
+	"npc_barrack_combine_pistol",
+	
+	"npc_barrack_combine_swordsman",	
+	"npc_barrack_combine_ar2",
+	
+	"npc_barrack_combine_ddt",	
+	"npc_barrack_combine_shotgunner",
+	
+	"npc_barrack_combine_collos",
+	"npc_barrack_combine_elite",
+	
+	"npc_barrack_villager",
+	"npc_barrack_combine_commander",
+	
+	"npc_barrack_chaos_containment_unit",
+	"npc_barrack_combine_super",
+		
+	"npc_barrack_combine_sniper",
+	"npc_barrack_combine_giant_ddt"	
+};
+
+static int SummonerVictoria[][] =
 {
 	// NPC Index, Wood, Food, Gold, Time, Level, Supply, Requirement
 	
@@ -763,6 +816,7 @@ static const char CivName[][] =
 	"Thorns Assitance",
 	"Blitzkrieg's Army",
 	"Guln's Companions",
+	"Victorian Mercenaries",
 	"Iberia and Expidonsan's",
 	"Iberia and Expidonsan's",
 };
@@ -777,6 +831,11 @@ static void SetupNPCIndexes()
 	for(int i; i < sizeof(SummonerCombine); i++)
 	{
 		SummonerCombine[i][NPCIndex] = NPC_GetByPlugin(SummonerCombineNPC[i]);
+	}
+
+	for(int i; i < sizeof(SummonerVictoria); i++)
+	{
+		SummonerVictoria[i][NPCIndex] = NPC_GetByPlugin(SummonerVictoriaNPC[i]);
 	}
 
 	for(int i; i < sizeof(SummonerThorns); i++)
@@ -815,6 +874,9 @@ static int GetUnitCount(int civ)
 		
 		case Combine:
 			return sizeof(SummonerCombine);
+
+		case Victoria:
+			return sizeof(SummonerVictoria);
 			
 		case Alternative:
 			return sizeof(SummonerAlternative);
@@ -839,6 +901,9 @@ static int GetSData(int civ, int unit, int index)
 
 		case Combine:
 			return SummonerCombine[unit][index];
+		
+		case Victoria:
+			return SummonerVictoria[unit][index];
 			
 		case Alternative:
 			return SummonerAlternative[unit][index];
@@ -913,6 +978,9 @@ public void Building_Summoner(int client, int entity)
 		
 	if(CivType[client] == Default)
 		CivType[client] = Store_HasNamedItem(client, "Guln's Companions") ? Combine : Default;
+
+	if(CivType[client] == Default)
+		CivType[client] = Store_HasNamedItem(client, "Contract for Victorian PMC") ? Victoria : Default;
 		
 	i_PlayerToCustomBuilding[client] = EntIndexToEntRef(entity);
 	Building_Collect_Cooldown[entity][0] = 0.0;	
