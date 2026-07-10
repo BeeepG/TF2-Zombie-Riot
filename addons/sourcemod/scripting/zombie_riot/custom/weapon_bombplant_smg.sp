@@ -553,7 +553,7 @@ static void Gun_BombARTouch(int entity, int target)
 
 		if(!b_NpcIsInvulnerable[target])
 		{
-			f_BombEntityWeaponDamageApplied[target][owner] += f_WandDamage[entity] / 12.0;
+			f_BombEntityWeaponDamageApplied[target][owner] += f_WandDamage[entity] / 10.0;
 			i_HowManyBombsOnThisEntity[target][owner]++;
 			i_HowManyBombsHud[target]++;
 			Apply_Particle_Teroriser_Indicator(target);
