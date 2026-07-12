@@ -45,6 +45,10 @@ static const char g_MeleeHitSounds[][] = {
 	"weapons/cbar_hitbod3.wav",
 };
 
+static const char g_EatingSounds[][] = {
+	"vo/sandwicheat09.mp3"
+};
+
 
 void Gluttony_OnMapStart_NPC()
 {
@@ -106,7 +110,7 @@ methodmap Gluttony < CClotBody
 
 	public void PlaySoldierScream() 
 	{
-		EmitSoundToAll(g_DeathSounds[GetRandomInt(0, sizeof(g_DeathSounds) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
+		EmitSoundToAll(g_SoldierScreamSounds[GetRandomInt(0, sizeof(g_SoldierScreamSounds) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
 	}
 	
 	public void PlayMeleeSound()
@@ -242,13 +246,13 @@ public void Gluttony_ClotThink(int iNPC)
 				npc.m_flAttackHappens = 0.0;
 				npc.m_flSpeed = 0.0;
 				npc.m_flNextMeleeAttack = GetGameTime(npc.index) + 2.0;
-				npc.m_flAbilityDuration = gameTime + 1.00;
+				npc.m_flAbilityDuration = GetGameTime(npc.index) + 1.00;
 				npc.m_iState=1;
 				npc.PlaySoldierScream();
 			}	
 			case 1:
 			{
-				if(npc.m_flAbilityDuration < gameTime)
+				if(npc.m_flAbilityDuration < GetGameTime(npc.index))
 				{
 					if(IsValidEntity(npc.m_iWearable7))
 						RemoveEntity(npc.m_iWearable7);
@@ -412,32 +416,6 @@ void GluttonySelfDefense(Gluttony npc, float gameTime, int target, float distanc
 				npc.m_flDoingAnimation = gameTime + 0.25;
 				npc.m_flNextMeleeAttack = gameTime + 1.0;
 			}
-		}
-	}
-}
-
-void GluttonyAllyHealInternal(int entity, int victim)
-{
-	int flHealth = GetEntProp(victim, Prop_Data, "m_iHealth");
-	int flMaxHealth = ReturnEntityMaxHealth(victim);
-
-	if(b_thisNpcIsABoss[victim] || b_thisNpcIsARaid[victim])
-	{
-		//bosses and raids need much more overheal to get this insanely strong buff!
-		flMaxHealth = RoundToCeil(float(flMaxHealth) * 1.5);
-	}
-	else
-	{
-		flMaxHealth = RoundToCeil(float(flMaxHealth) * 1.15);
-	}
-	//silence disables this superbuff accuring.
-	if(!NpcStats_IsEnemySilenced(entity) && !NpcStats_IsEnemySilenced(victim))
-	{
-		if(flHealth > flMaxHealth)
-		{
-			//super power!
-			ApplyStatusEffect(entity, victim, "War Cry", 999999.0);	
-			ApplyStatusEffect(entity, victim, "Defensive Backup", 999999.0);	
 		}
 	}
 }

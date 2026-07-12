@@ -845,6 +845,8 @@ void NPC_ConfigSetup()
 	StalkerGoggles_OnMapStart();
 	Wisp_Setup();
 
+	Gluttony_OnMapStart_NPC();
+
 	// COF Low Prio
 	Addiction_OnMapStart_NPC();
 	Doctor_MapStart();
@@ -2087,6 +2089,8 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/respawn/npc_stalker_combine.sp"
 #include "npc/respawn/npc_stalker_father.sp"
 #include "npc/respawn/npc_stalker_goggles.sp"
+
+#include "npc/respawn/npc_gluttony.sp"
 
 #include "npc/raidmode_bosses/xeno/npc_infected_silvester.sp"
 #include "npc/raidmode_bosses/xeno/npc_infected_goggles.sp"
