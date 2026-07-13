@@ -160,8 +160,7 @@ methodmap Gluttony < CClotBody
 		
 		ApplyStatusEffect(npc.index, npc.index, "Clear Head", 999999.0);	
 		
-		int skin = 1;
-		SetEntProp(npc.index, Prop_Send, "m_nSkin", skin);
+		SetEntProp(npc.index, Prop_Send, "m_nSkin", GetRandomInt(0, 1));
 		
 
 		npc.m_iWearable1 = npc.EquipItem("head", "models/player/items/heavy/big_jaw.mdl");
@@ -171,22 +170,23 @@ methodmap Gluttony < CClotBody
 		npc.m_iWearable5 = npc.EquipItem("head", "models/workshop/player/items/all_class/hwn2025_face_lift/hwn2025_face_lift_heavy.mdl");
 		npc.m_iWearable6 = npc.EquipItem("head", "models/workshop/player/items/heavy/sum26_tzar_athlete_style2/sum26_tzar_athlete_style2.mdl");
 		
-		SetEntityRenderColor(npc.index, 100, 150, 150, 255);
-		SetEntityRenderColor(npc.m_iWearable3, 125, 0, 0, 255);
-		SetEntityRenderColor(npc.m_iWearable5, 125, 0, 0, 255);
-		SetEntityRenderColor(npc.m_iWearable6, 100, 150, 150, 255);
+		SetEntityRenderColor(npc.index, 100, 100, 100, 255);
+		SetEntityRenderColor(npc.m_iWearable3, 100, 100, 100, 255);
+		SetEntityRenderColor(npc.m_iWearable3, 100, 0, 0, 255);
+		SetEntityRenderColor(npc.m_iWearable5, 100, 0, 0, 255);
+		SetEntityRenderColor(npc.m_iWearable6, 100, 100, 100, 255);
 
-		SetEntProp(npc.m_iWearable1, Prop_Send, "m_nSkin", skin);
-		SetEntProp(npc.m_iWearable2, Prop_Send, "m_nSkin", skin);
-		SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", skin);
-		SetEntProp(npc.m_iWearable4, Prop_Send, "m_nSkin", skin);
-		SetEntProp(npc.m_iWearable5, Prop_Send, "m_nSkin", skin);
-		SetEntProp(npc.m_iWearable6, Prop_Send, "m_nSkin", skin);
+		SetEntProp(npc.m_iWearable1, Prop_Send, "m_nSkin", GetRandomInt(0, 1));
+		SetEntProp(npc.m_iWearable2, Prop_Send, "m_nSkin", GetRandomInt(0, 1));
+		SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", GetRandomInt(0, 1));
+		SetEntProp(npc.m_iWearable4, Prop_Send, "m_nSkin", GetRandomInt(0, 1));
+		SetEntProp(npc.m_iWearable5, Prop_Send, "m_nSkin", GetRandomInt(0, 1));
+		SetEntProp(npc.m_iWearable6, Prop_Send, "m_nSkin", GetRandomInt(0, 1));
 
 
 		float Vec[3], Ang[3]={0.0,0.0,0.0};
 		npc.GetAttachment("effect_hand_r", Vec, Ang);
-		npc.m_iWearable7 = npc.EquipItemSeperate("models/player/soldier.mdl",_,1,1.001,_,true);
+		npc.m_iWearable7 = npc.EquipItemSeperate("models/player/soldier.mdl",_,1);
 		/*
 		Ang = view_as<float>( { 0.0, -90.0, -90.0 } );
 		Vec[0] += 37.5;
@@ -194,7 +194,7 @@ methodmap Gluttony < CClotBody
 		*/
 		TeleportEntity(npc.m_iWearable7, Vec, Ang, NULL_VECTOR);
 		SetEntityRenderColor(npc.m_iWearable7, 125, 125, 125, 255);
-		SetVariantString("0.5");
+		SetVariantString("1.0");
 		AcceptEntityInput(npc.m_iWearable7, "SetModelScale");
 
 		return npc;
@@ -237,7 +237,6 @@ public void Gluttony_ClotThink(int iNPC)
 			case 0:
 			{
 				npc.StopPathing();				
-				npc.m_bisWalking = false;
 				npc.AddActivityViaSequence("taunt04");
 				npc.SetCycle(0.05);
 				npc.SetPlaybackRate(2.0);
@@ -260,8 +259,9 @@ public void Gluttony_ClotThink(int iNPC)
 					flMaxhealth *= 1.25;
 					SetEntProp(npc.index, Prop_Data, "m_iHealth", RoundToNearest(flMaxhealth));
 					DesertYadeamDoHealEffect(npc.index, 250.0);
-
+					npc.StartPathing();
 					npc.m_iState=2;
+					npc.SetActivity("ACT_MP_RUN_PASSTIME");
 				}
 			}
 		}
@@ -377,7 +377,7 @@ void GluttonySelfDefense(Gluttony npc, float gameTime, int target, float distanc
 					*/
 					TeleportEntity(npc.m_iWearable7, Vec, Ang, NULL_VECTOR);
 					SetEntityRenderColor(npc.m_iWearable7, 125, 125, 125, 255);
-					SetVariantString("0.5");
+					SetVariantString("1.0");
 					AcceptEntityInput(npc.m_iWearable7, "SetModelScale");
 				}
 				if(IsValidEnemy(npc.index, target))
