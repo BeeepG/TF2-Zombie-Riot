@@ -23,26 +23,50 @@ static const char g_HurtSounds[][] = {
 
 
 static const char g_IdleAlertedSounds[][] = {
-	"vo/taunts/heavy_taunts16.mp3",
-	"vo/taunts/heavy_taunts18.mp3",
-	"vo/taunts/heavy_taunts19.mp3",
+	"vo/heavy_specialcompleted09.mp3"
+};
+
+static const char g_IdleAlertedSoundsRobot[][] = {
+	"vo/mvm/mght/heavy_mvm_m_specialcompleted09.mp3"
 };
 
 static const char g_MeleeAttackSounds[][] = {
-	"vo/heavy_meleeing01.mp3",
-	"vo/heavy_meleeing02.mp3",
-	"vo/heavy_meleeing03.mp3",
-	"vo/heavy_meleeing04.mp3",
-	"vo/heavy_meleeing05.mp3",
-	"vo/heavy_meleeing06.mp3",
-	"vo/heavy_meleeing07.mp3",
-	"vo/heavy_meleeing08.mp3",
+	"npc/vort/claw_swing1.wav",
+	"npc/vort/claw_swing2.wav",
+};
+
+static const char g_InsaneSounds[][] = {
+	"vo/heavy_laughhappy01.mp3",
+	"vo/heavy_laughhappy02.mp3",
+	"vo/heavy_laughhappy03.mp3",
+	"vo/heavy_laughhappy04.mp3",
+	"vo/heavy_laughhappy05.mp3",
+};
+
+static const char g_InsaneRobotSounds[][] = {
+	"vo/mvm/mght/heavy_mvm_m_laughhappy01.mp3",
+	"vo/mvm/mght/heavy_mvm_m_laughhappy02.mp3",
+	"vo/mvm/mght/heavy_mvm_m_laughhappy03.mp3",
+	"vo/mvm/mght/heavy_mvm_m_laughhappy04.mp3",
+	"vo/mvm/mght/heavy_mvm_m_laughhappy05.mp3",
 };
 
 static const char g_MeleeHitSounds[][] = {
-	"weapons/cbar_hitbod1.wav",
-	"weapons/cbar_hitbod2.wav",
-	"weapons/cbar_hitbod3.wav",
+	"physics/body/body_medium_impact_hard1.wav",
+	"physics/body/body_medium_impact_hard2.wav",
+	"physics/body/body_medium_impact_hard3.wav",
+	"physics/body/body_medium_impact_hard4.wav",
+	"physics/body/body_medium_impact_hard5.wav",
+	"physics/body/body_medium_impact_hard6.wav",
+};
+
+static const char g_MeleeHitSoldierOuch[][] = {
+	"vo/soldier_negativevocalization01.mp3",
+	"vo/soldier_negativevocalization02.mp3",
+	"vo/soldier_negativevocalization03.mp3",
+	"vo/soldier_negativevocalization04.mp3",
+	"vo/soldier_negativevocalization05.mp3",
+	"vo/soldier_negativevocalization06.mp3",
 };
 
 static const char g_EatingSounds[][] = {
@@ -55,8 +79,14 @@ void Gluttony_OnMapStart_NPC()
 	for (int i = 0; i < (sizeof(g_DeathSounds));	   i++) { PrecacheSound(g_DeathSounds[i]);	   }
 	for (int i = 0; i < (sizeof(g_HurtSounds));		i++) { PrecacheSound(g_HurtSounds[i]);		}
 	for (int i = 0; i < (sizeof(g_IdleAlertedSounds)); i++) { PrecacheSound(g_IdleAlertedSounds[i]); }
+	for (int i = 0; i < (sizeof(g_InsaneRobotSounds)); i++) { PrecacheSound(g_InsaneRobotSounds[i]); }
+	for (int i = 0; i < (sizeof(g_IdleAlertedSoundsRobot)); i++) { PrecacheSound(g_IdleAlertedSoundsRobot[i]); }
 	for (int i = 0; i < (sizeof(g_MeleeAttackSounds)); i++) { PrecacheSound(g_MeleeAttackSounds[i]); }
 	for (int i = 0; i < (sizeof(g_MeleeHitSounds)); i++) { PrecacheSound(g_MeleeHitSounds[i]); }
+	for (int i = 0; i < (sizeof(g_SoldierScreamSounds)); i++) { PrecacheSound(g_SoldierScreamSounds[i]); }
+	for (int i = 0; i < (sizeof(g_EatingSounds)); i++) { PrecacheSound(g_EatingSounds[i]); }
+	for (int i = 0; i < (sizeof(g_InsaneSounds)); i++) { PrecacheSound(g_InsaneSounds[i]); }
+	for (int i = 0; i < (sizeof(g_MeleeHitSoldierOuch)); i++) { PrecacheSound(g_MeleeHitSoldierOuch[i]); }
 	PrecacheModel("models/player/heavy.mdl");
 	NPCData data;
 	strcopy(data.Name, sizeof(data.Name), "Gluttony");
@@ -82,7 +112,8 @@ methodmap Gluttony < CClotBody
 			return;
 		
 		EmitSoundToAll(g_IdleAlertedSounds[GetRandomInt(0, sizeof(g_IdleAlertedSounds) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
-		this.m_flNextIdleSound = GetGameTime(this.index) + GetRandomFloat(12.0, 24.0);
+		EmitSoundToAll(g_IdleAlertedSoundsRobot[GetRandomInt(0, sizeof(g_IdleAlertedSoundsRobot) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME, 90);
+		this.m_flNextIdleSound = GetGameTime(this.index) + GetRandomFloat(10.0, 20.0);
 		
 	}
 	
@@ -104,12 +135,14 @@ methodmap Gluttony < CClotBody
 
 	public void PlayEatingSound()
 	{
-		EmitSoundToAll(g_EatingSounds[GetRandomInt(0, sizeof(g_EatingSounds) - 1)], this.index, SNDCHAN_AUTO, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME, 80);
-		EmitSoundToAll(g_EatingSounds[GetRandomInt(0, sizeof(g_EatingSounds) - 1)], this.index, SNDCHAN_AUTO, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME, 80);
+		EmitSoundToAll(g_EatingSounds[GetRandomInt(0, sizeof(g_EatingSounds) - 1)], this.index, SNDCHAN_AUTO, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME, 70);
+		EmitSoundToAll(g_EatingSounds[GetRandomInt(0, sizeof(g_EatingSounds) - 1)], this.index, SNDCHAN_AUTO, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME, 70);
 	}
 
 	public void PlaySoldierScream() 
 	{
+		EmitSoundToAll(g_SoldierScreamSounds[GetRandomInt(0, sizeof(g_SoldierScreamSounds) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
+		EmitSoundToAll(g_SoldierScreamSounds[GetRandomInt(0, sizeof(g_SoldierScreamSounds) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
 		EmitSoundToAll(g_SoldierScreamSounds[GetRandomInt(0, sizeof(g_SoldierScreamSounds) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
 	}
 	
@@ -120,6 +153,19 @@ methodmap Gluttony < CClotBody
 	public void PlayMeleeHitSound() 
 	{
 		EmitSoundToAll(g_MeleeHitSounds[GetRandomInt(0, sizeof(g_MeleeHitSounds) - 1)], this.index, SNDCHAN_STATIC, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME, 80);
+
+	}
+
+	public void PlayMeleeHitSouldierHurtSound() 
+	{
+		EmitSoundToAll(g_MeleeHitSoldierOuch[GetRandomInt(0, sizeof(g_MeleeHitSoldierOuch) - 1)], this.index, SNDCHAN_STATIC, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
+
+	}
+
+	public void PlayInsaneSound() 
+	{
+		EmitSoundToAll(g_InsaneSounds[GetRandomInt(0, sizeof(g_InsaneSounds) - 1)], this.index, SNDCHAN_STATIC, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME, 80);
+		EmitSoundToAll(g_InsaneRobotSounds[GetRandomInt(0, sizeof(g_InsaneRobotSounds) - 1)], this.index, SNDCHAN_STATIC, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
 
 	}
 	property float m_flAbilityDuration
@@ -154,7 +200,8 @@ methodmap Gluttony < CClotBody
 		func_NPCOnTakeDamage[npc.index] = view_as<Function>(Gluttony_OnTakeDamage);
 		func_NPCThink[npc.index] = view_as<Function>(Gluttony_ClotThink);
 		
-		
+		npc.m_flNextRangedAttack = 0.0;
+
 		npc.StartPathing();
 		npc.m_flSpeed = 250.0;
 		
@@ -171,7 +218,8 @@ methodmap Gluttony < CClotBody
 		npc.m_iWearable6 = npc.EquipItem("head", "models/workshop/player/items/heavy/sum26_tzar_athlete_style2/sum26_tzar_athlete_style2.mdl");
 		
 		SetEntityRenderColor(npc.index, 100, 100, 100, 255);
-		SetEntityRenderColor(npc.m_iWearable3, 100, 100, 100, 255);
+		SetEntityRenderColor(npc.m_iWearable1, 150, 150, 150, 255);
+		SetEntityRenderColor(npc.m_iWearable2, 100, 100, 100, 255);
 		SetEntityRenderColor(npc.m_iWearable3, 100, 0, 0, 255);
 		SetEntityRenderColor(npc.m_iWearable5, 100, 0, 0, 255);
 		SetEntityRenderColor(npc.m_iWearable6, 100, 100, 100, 255);
@@ -186,16 +234,22 @@ methodmap Gluttony < CClotBody
 
 		float Vec[3], Ang[3]={0.0,0.0,0.0};
 		npc.GetAttachment("effect_hand_r", Vec, Ang);
-		npc.m_iWearable7 = npc.EquipItemSeperate("models/player/soldier.mdl",_,1);
+		npc.m_iWearable7 = npc.EquipItemSeperate("models/player/soldier.mdl",_,GetRandomInt(0, 1));
+		Ang = view_as<float>( { 45.0, -90.0, -180.0 } );
 		/*
-		Ang = view_as<float>( { 0.0, -90.0, -90.0 } );
 		Vec[0] += 37.5;
 		Vec[2] += 51.2;
 		*/
 		TeleportEntity(npc.m_iWearable7, Vec, Ang, NULL_VECTOR);
-		SetEntityRenderColor(npc.m_iWearable7, 125, 125, 125, 255);
+		SetParent(npc.index, npc.m_iWearable7 , "effect_hand_r", {0.0, -5.0, 0.0});
+		SetEntityRenderColor(npc.m_iWearable7, 100, 100, 100, 255);
+		SetVariantInt(2);
+		AcceptEntityInput(npc.m_iWearable7, "SetBodyGroup");
 		SetVariantString("1.0");
 		AcceptEntityInput(npc.m_iWearable7, "SetModelScale");
+		MakeObjectIntangeable(npc.m_iWearable7);
+		SetVariantString("ACT_MP_RUN_LOSERSTATE");
+		AcceptEntityInput(npc.m_iWearable7, "SetAnimation");
 
 		return npc;
 	}
@@ -239,16 +293,18 @@ public void Gluttony_ClotThink(int iNPC)
 				npc.StopPathing();				
 				npc.AddActivityViaSequence("taunt04");
 				npc.SetCycle(0.05);
-				npc.SetPlaybackRate(2.0);
+				npc.SetPlaybackRate(1.25);
 				npc.PlayEatingSound();
-				IncreaseEntityDamageTakenBy(npc.index, 0.15, 2.0);
+				IncreaseEntityDamageTakenBy(npc.index, 0.15, 1.5);
 				npc.m_flAttackHappens = 0.0;
 				npc.m_flSpeed = 0.0;
 				npc.m_flNextMeleeAttack = GetGameTime(npc.index) + 2.0;
-				npc.m_flAbilityDuration = GetGameTime(npc.index) + 1.00;
+				npc.m_flAbilityDuration = GetGameTime(npc.index) + 0.75;
 				npc.m_iState=1;
+				npc.m_bisWalking = false;
 				npc.PlaySoldierScream();
-			}	
+				npc.m_flNextRangedAttack = GetGameTime(npc.index) + 2.0;
+			}
 			case 1:
 			{
 				if(npc.m_flAbilityDuration < GetGameTime(npc.index))
@@ -259,12 +315,34 @@ public void Gluttony_ClotThink(int iNPC)
 					flMaxhealth *= 1.25;
 					SetEntProp(npc.index, Prop_Data, "m_iHealth", RoundToNearest(flMaxhealth));
 					DesertYadeamDoHealEffect(npc.index, 250.0);
-					npc.StartPathing();
+					float pos[3]; GetEntPropVector(npc.index, Prop_Data, "m_vecAbsOrigin", pos);
+					float ang[3]; GetEntPropVector(npc.index, Prop_Data, "m_angRotation", ang);
+
+					NPC_CreateByName("npc_gibspawner", -1, pos, ang, GetTeam(npc.index), "EX");
 					npc.m_iState=2;
-					npc.SetActivity("ACT_MP_RUN_PASSTIME");
+					npc.m_flAbilityDuration = GetGameTime(npc.index) + 0.75;
+				}
+				
+			}	
+			case 2:
+			{
+				if(npc.m_flAbilityDuration < GetGameTime(npc.index))
+				{
+					npc.StartPathing();
+					npc.m_flSpeed = 330.0;
+					npc.m_iState=3;
+					npc.SetActivity("ACT_MP_RUN_MELEE");
+					npc.m_bisWalking = true;
+					ApplyStatusEffect(npc.index, npc.index, "Corrupted Godly Power", 999.0);
 				}
 			}
 		}
+		if(npc.m_flNextRangedAttack < GetGameTime(npc.index))
+		{
+			npc.PlayInsaneSound();
+			npc.m_flNextRangedAttack = GetGameTime(npc.index) + 1.0;
+		}
+		
 	}
 	
 
@@ -330,7 +408,8 @@ public void Gluttony_NPCDeath(int entity)
 	{
 		npc.PlayDeathSound();	
 	}
-		
+	if(IsValidEntity(npc.m_iWearable7))
+		RemoveEntity(npc.m_iWearable7);
 	if(IsValidEntity(npc.m_iWearable6))
 		RemoveEntity(npc.m_iWearable6);
 	if(IsValidEntity(npc.m_iWearable5))
@@ -364,22 +443,6 @@ void GluttonySelfDefense(Gluttony npc, float gameTime, int target, float distanc
 				float vecHit[3];
 				TR_GetEndPosition(vecHit, swingTrace);
 				
-				if(!NpcStats_IsEnemySilenced(npc.index) && !IsValidEnemy(npc.index, target))	// Killed target, spawn 3 copies
-				{
-					npc.Anger = false;
-					float Vec[3], Ang[3]={0.0,0.0,0.0};
-					npc.GetAttachment("effect_hand_r", Vec, Ang);
-					npc.m_iWearable7 = npc.EquipItemSeperate("models/player/soldier.mdl",_,1,1.001,_,true);
-					/*
-					Ang = view_as<float>( { 0.0, -90.0, -90.0 } );
-					Vec[0] += 37.5;
-					Vec[2] += 51.2;
-					*/
-					TeleportEntity(npc.m_iWearable7, Vec, Ang, NULL_VECTOR);
-					SetEntityRenderColor(npc.m_iWearable7, 125, 125, 125, 255);
-					SetVariantString("1.0");
-					AcceptEntityInput(npc.m_iWearable7, "SetModelScale");
-				}
 				if(IsValidEnemy(npc.index, target))
 				{
 					float damageDealt = 100.0;
@@ -392,6 +455,8 @@ void GluttonySelfDefense(Gluttony npc, float gameTime, int target, float distanc
 
 					// Hit sound
 					npc.PlayMeleeHitSound();
+					if(!npc.Anger)
+						npc.PlayMeleeHitSouldierHurtSound();
 				} 
 			}
 			delete swingTrace;
@@ -410,11 +475,47 @@ void GluttonySelfDefense(Gluttony npc, float gameTime, int target, float distanc
 			{
 				npc.m_iTarget = Enemy_I_See;
 				npc.PlayMeleeSound();
-				npc.AddGesture("ACT_MP_ATTACK_STAND_GRENADE",_,_,_,1.5);
+				if(!npc.Anger)
+				{
+					npc.AddGesture("ACT_MP_ATTACK_STAND_MELEE_ALLCLASS",_,_,_,1.25);
+					npc.m_flNextMeleeAttack = gameTime + 1.0;
+				}
+				else
+				{
+					switch(GetRandomInt(1, 6))
+					{
+						case 1:
+						{
+							npc.AddGesture("ACT_MP_ATTACK_STAND_MELEE",_,_,_,1.25);
+						}
+						case 2:
+						{
+							npc.AddGesture("ACT_MP_ATTACK_STAND_GRENADE",_,_,_,1.5);
+						}
+						case 3:
+						{
+							npc.AddGesture("ACT_MP_THROW");
+						}
+						case 4:
+						{
+							npc.AddGesture("ACT_MP_GESTURE_VC_FISTPUMP_MELEE",_,_,_,1.5);
+						}
+						case 5:
+						{
+							npc.AddGesture("ACT_MP_PASSTIME_THROW_END");
+						}
+						case 6:
+						{
+							npc.AddGesture("ACT_MP_GESTURE_VC_FINGERPOINT_PRIMARY",_,_,_,1.5);
+						}
+					}
+					
+					npc.m_flNextMeleeAttack = gameTime + 0.35;
+				}
 						
 				npc.m_flAttackHappens = gameTime + 0.25;
 				npc.m_flDoingAnimation = gameTime + 0.25;
-				npc.m_flNextMeleeAttack = gameTime + 1.0;
+				
 			}
 		}
 	}

@@ -846,6 +846,8 @@ void NPC_ConfigSetup()
 	Wisp_Setup();
 
 	Gluttony_OnMapStart_NPC();
+	GibSpawner_OnMapStart_NPC();
+
 
 	// COF Low Prio
 	Addiction_OnMapStart_NPC();
@@ -2091,6 +2093,7 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/respawn/npc_stalker_goggles.sp"
 
 #include "npc/respawn/npc_gluttony.sp"
+#include "npc/respawn/npc_gibspawner.sp"
 
 #include "npc/raidmode_bosses/xeno/npc_infected_silvester.sp"
 #include "npc/raidmode_bosses/xeno/npc_infected_goggles.sp"
