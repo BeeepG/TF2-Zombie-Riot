@@ -313,6 +313,7 @@ static void WF_Shapeshifter_ClotThink(int iNPC)
 				SetEntProp(npc.index, Prop_Data, "m_iHealth", 30000);
 				SetEntProp(npc.index, Prop_Data, "m_iMaxHealth", 30000);
 				ApplyStatusEffect(npc.index, npc.index, "King's Dying Breath", 999999.0);
+				npc.PlayTransformSound();
 				npc.Anger = true;
 			}
 			case 1:
@@ -338,6 +339,7 @@ static void WF_Shapeshifter_ClotThink(int iNPC)
 				SetEntProp(npc.index, Prop_Data, "m_iHealth", 35000);
 				SetEntProp(npc.index, Prop_Data, "m_iMaxHealth", 35000);
 				ApplyStatusEffect(npc.index, npc.index, "Mazeat Command", 999999.0);
+				npc.PlayTransformSound();
 				npc.Anger = true;
 			}
 			case 2:
@@ -364,6 +366,7 @@ static void WF_Shapeshifter_ClotThink(int iNPC)
 				SetEntProp(npc.index, Prop_Data, "m_iHealth", 40000);
 				SetEntProp(npc.index, Prop_Data, "m_iMaxHealth", 40000);
 				ApplyStatusEffect(npc.index, npc.index, "Mazeat Command", 999999.0);
+				npc.PlayTransformSound();
 				npc.Anger = true;
 			}
 			case 3:
@@ -388,6 +391,7 @@ static void WF_Shapeshifter_ClotThink(int iNPC)
 				SetEntProp(npc.index, Prop_Data, "m_iHealth", 40000);
 				SetEntProp(npc.index, Prop_Data, "m_iMaxHealth", 40000);
 				ApplyStatusEffect(npc.index, npc.index, "Expidonsan War Cry", 999999.0);
+				npc.PlayTransformSound();
 				npc.Anger = true;
 			}
 			case 4:
@@ -415,10 +419,11 @@ static void WF_Shapeshifter_ClotThink(int iNPC)
 				SetEntProp(npc.index, Prop_Data, "m_iHealth", 50000);
 				SetEntProp(npc.index, Prop_Data, "m_iMaxHealth", 50000);
 				ApplyStatusEffect(npc.index, npc.index, "Hussar's Warscream", 999999.0);
+				npc.PlayTransformSound();
 				npc.Anger = true;
 			}
 		}
-		npc.PlayTransformSound();
+		
 	}
 
 	npc.PlayIdleAlertSound();
