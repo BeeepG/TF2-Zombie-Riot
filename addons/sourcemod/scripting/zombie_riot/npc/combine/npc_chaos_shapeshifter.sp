@@ -812,27 +812,51 @@ static void WF_Shapeshifter_Rocket_Particle_StartTouch(int entity, int target)
 			{
 				case 1:
 				{
-					ApplyStatusEffect(owner, target, "Teslar Electricution", 3.0);	
+					ApplyStatusEffect(owner, target, "Teslar Electricution", 5.0);	
 				}
 				case 2:
 				{
-					ApplyStatusEffect(owner, target, "Near Zero", 3.0);	
+					ApplyStatusEffect(owner, target, "Near Zero", 5.0);	
 				}
 				case 3:
 				{
-					ApplyStatusEffect(owner, target, "Weakening Compound", 3.0);	
+					ApplyStatusEffect(owner, target, "Weakening Compound", 5.0);	
 				}
 				case 4:
 				{
-					ApplyStatusEffect(owner, target, "Molecular Collapse", 3.0);	
+					ApplyStatusEffect(owner, target, "Molecular Collapse", 5.0);	
 				}
 				case 5:
 				{
-					ApplyStatusEffect(owner, target, "Cudgelled", 3.0);	
+					ApplyStatusEffect(owner, target, "Cudgelled", 5.0);	
 				}
 				case 6:
 				{
-					ApplyStatusEffect(owner, target, "Silenced", 3.0);	
+					ApplyStatusEffect(owner, target, "Silenced", 5.0);	
+				}
+				case 7:
+				{
+					ApplyStatusEffect(owner, target, "Hypodermic Toxin Injection", 5.0);	
+				}
+				case 8:
+				{
+					ApplyStatusEffect(owner, target, "Cellular Breakdown", 5.0);	
+				}
+				case 9:
+				{
+					ApplyStatusEffect(owner, target, "Soggiest", 5.0);	
+				}
+				case 10:
+				{
+					ApplyStatusEffect(owner, target, "Heavy Presence", 5.0);	
+				}
+				case 11:
+				{
+					ApplyStatusEffect(owner, target, "Golden Curse", 5.0);	
+				}
+				case 12:
+				{
+					ApplyStatusEffect(owner, target, "Cripple", 5.0);	
 				}
 			}
 		}
