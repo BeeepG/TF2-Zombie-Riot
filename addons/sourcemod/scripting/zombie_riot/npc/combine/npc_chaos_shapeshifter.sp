@@ -41,6 +41,12 @@ static const char g_MageAttackSounds[][] = {
 	"ambient/cp_harbor/furnace_1_shot_05.wav",
 };
 
+static const char g_TransformSounds[][] = {
+	"items/powerup_pickup_supernova_activate.wav",
+};
+
+static bool ParticleSpawned[MAXENTITIES];
+
 void WF_Shapeshifter_OnMapStart_NPC()
 {
 	NPCData data;
@@ -81,18 +87,18 @@ methodmap WF_Shapeshifter < CClotBody
 	}
 	property int m_iMagicHit
 	{
-		public get()							{ return i_OverlordComboAttack[this.index]; }
-		public set(int TempValueForProperty) 	{ i_OverlordComboAttack[this.index] = TempValueForProperty; }
+		public get()							{ return i_Changed_WalkCycle[this.index]; }
+		public set(int TempValueForProperty) 	{ i_Changed_WalkCycle[this.index] = TempValueForProperty; }
 	}
 	property int m_iExplosionHit
 	{
-		public get()							{ return i_OverlordComboAttack[this.index]; }
-		public set(int TempValueForProperty) 	{ i_OverlordComboAttack[this.index] = TempValueForProperty; }
+		public get()							{ return i_TargetAlly[this.index]; }
+		public set(int TempValueForProperty) 	{ i_TargetAlly[this.index] = TempValueForProperty; }
 	}
 	property int m_iMeleeHit
 	{
-		public get()							{ return i_OverlordComboAttack[this.index]; }
-		public set(int TempValueForProperty) 	{ i_OverlordComboAttack[this.index] = TempValueForProperty; }
+		public get()							{ return i_MedkitAnnoyance[this.index]; }
+		public set(int TempValueForProperty) 	{ i_MedkitAnnoyance[this.index] = TempValueForProperty; }
 	}
 	
 	public void PlayIdleAlertSound() 
@@ -132,6 +138,10 @@ methodmap WF_Shapeshifter < CClotBody
 	{
 		EmitSoundToAll(g_MageAttackSounds[GetRandomInt(0, sizeof(g_MageAttackSounds) - 1)], this.index, SNDCHAN_AUTO, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
 	}
+	public void PlayTransformSound()
+	{
+		EmitSoundToAll(g_TransformSounds[GetRandomInt(0, sizeof(g_TransformSounds) - 1)], this.index, SNDCHAN_AUTO, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
+	}
 
 	public WF_Shapeshifter(float vecPos[3], float vecAng[3], int ally)
 	{
@@ -163,6 +173,8 @@ methodmap WF_Shapeshifter < CClotBody
 
 		npc.Anger = false;
 		npc.m_fbRangedSpecialOn = false;
+		npc.m_bLostHalfHealth = false;
+		ParticleSpawned[npc.index] = false;
 
 		npc.m_iBulletHit = 0;
 		npc.m_iMagicHit = 0;
@@ -174,7 +186,7 @@ methodmap WF_Shapeshifter < CClotBody
 		npc.GetAttachment("eyes", flPos, flAng);
 		npc.m_iWearable4 = ParticleEffectAt_Parent(flPos, "unusual_smoking", npc.index, "eyes", {0.0,0.0,0.0});
 		npc.m_iWearable5 = ParticleEffectAt_Parent(flPos, "unusual_psychic_eye_white_glow", npc.index, "eyes", {0.0,0.0,-15.0});
-		npc.m_iWearable6 = ParticleEffectAt_Parent(flPos, "utaunt_2fort_teamc_red_smoke1", npc.index, "m_vecAbsOrigin", {0.0,0.0,10.0});
+		npc.m_iWearable6 = ParticleEffectAt_Parent(flPos, "utaunt_seamine_red_water_2", npc.index, "m_vecAbsOrigin", {0.0,0.0,10.0});
 
 		ApplyStatusEffect(npc.index, npc.index, "Clear Head", 999999.0);	
 		ApplyStatusEffect(npc.index, npc.index, "Solid Stance", 999999.0);		
@@ -239,23 +251,33 @@ static void WF_Shapeshifter_ClotThink(int iNPC)
 		npc.m_iTarget = GetClosestTarget(npc.index);
 	}
 
+	if(npc.m_iState == 4 && npc.m_bLostHalfHealth)
+	{
+		if(!ParticleSpawned[npc.index])
+		{
+			IgniteTargetEffect(npc.m_iWearable1);
+			ParticleSpawned[npc.index] = true;
+			ApplyStatusEffect(npc.index, npc.index, "Quantum Entanglement", 999999.0);
+		}
+	}
+
 	if(npc.m_fbRangedSpecialOn)
 	{
 		npc.m_iState = 0;
 	}
-	else if(npc.m_iBulletHit > 5)
+	else if(npc.m_iBulletHit > 4)
 	{
 		npc.m_iState = 1;
 	}
-	else if(npc.m_iExplosionHit > 5)
+	else if(npc.m_iExplosionHit > 4)
 	{
 		npc.m_iState = 2;
 	}
-	else if(npc.m_iMagicHit > 5)
+	else if(npc.m_iMagicHit > 4)
 	{
 		npc.m_iState = 3;
 	}
-	else if(npc.m_iMeleeHit > 5)
+	else if(npc.m_iMeleeHit > 4)
 	{
 		npc.m_iState = 4;
 	}
@@ -269,10 +291,12 @@ static void WF_Shapeshifter_ClotThink(int iNPC)
 				SetVariantString("1.2");
 				AcceptEntityInput(npc.m_iWearable2, "SetModelScale");
 				SetEntityRenderColor(npc.m_iWearable2, 150, 150, 150, 175);
+				SetEntProp(npc.m_iWearable2, Prop_Send, "m_nSkin", 1);
 				npc.m_iWearable3 = npc.EquipItem("head", "models/workshop/player/items/soldier/sf14_the_battle_bird/sf14_the_battle_bird.mdl");
 				SetVariantString("1.1");
 				AcceptEntityInput(npc.m_iWearable3, "SetModelScale");
 				SetEntityRenderColor(npc.m_iWearable3, 150, 150, 150, 175);
+				SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", 1);
 				if(IsValidEntity(npc.m_iWearable6))
 				RemoveEntity(npc.m_iWearable6);
 				float flPos[3], flAng[3];
@@ -383,7 +407,7 @@ static void WF_Shapeshifter_ClotThink(int iNPC)
 				RemoveEntity(npc.m_iWearable6);
 				float flPos[3], flAng[3];
 				npc.GetAttachment("m_vecAbsOrigin", flPos, flAng);
-				npc.m_iWearable6 = ParticleEffectAt_Parent(flPos, "utaunt_2fort_teamc_red_globe1", npc.index, "m_vecAbsOrigin", {0.0,0.0,0.0});
+				npc.m_iWearable6 = ParticleEffectAt_Parent(flPos, "utaunt_poweraura_blue_beam", npc.index, "m_vecAbsOrigin", {0.0,0.0,0.0});
 				npc.SetActivity("ACT_TEUTON_WALK_NEW_XENO");
 				npc.m_flSpeed = 270.0;
 				npc.m_flMeleeArmor = 0.4;
@@ -394,6 +418,7 @@ static void WF_Shapeshifter_ClotThink(int iNPC)
 				npc.Anger = true;
 			}
 		}
+		npc.PlayTransformSound();
 	}
 
 	npc.PlayIdleAlertSound();
@@ -410,6 +435,11 @@ static Action WF_Shapeshifter_OnTakeDamage(int victim, int &attacker, int &infli
 	{
 		npc.m_flHeadshotCooldown = GetGameTime(npc.index) + DEFAULT_HURTDELAY;
 		npc.m_blPlayHurtAnimation = true;
+	}
+
+	if((ReturnEntityMaxHealth(npc.index)/2) >= GetEntProp(npc.index, Prop_Data, "m_iHealth") && !npc.m_bLostHalfHealth) 
+	{
+		npc.m_bLostHalfHealth = true;
 	}
 
 	if(!npc.Anger)
@@ -675,7 +705,8 @@ static void WF_ShapeshifterSelfDefense(WF_Shapeshifter npc, float gameTime, int 
 					float vPredictedPos[3];
 					PredictSubjectPosition(npc, npc.m_iTarget,_,_, vPredictedPos);
 
-					npc.FireParticleRocket(vPredictedPos, damageDeal , ProjectileSpeed , 150.0 , "scorchshot_trail_crit_blue");
+					int projectile = npc.FireParticleRocket(vPredictedPos, damageDeal , ProjectileSpeed , 150.0 , "scorchshot_trail_crit_blue");
+					WandProjectile_ApplyFunctionToEntity(projectile, WF_Shapeshifter_Rocket_Particle_StartTouch);
 					
 					npc.AddGesture("ACT_MP_ATTACK_STAND_MELEE",_,_,_,1.0);
 					npc.m_flNextMeleeAttack = gameTime + 1.50;	
@@ -744,4 +775,73 @@ static void WF_ShapeshifterSelfDefense(WF_Shapeshifter npc, float gameTime, int 
 		}
 	}
 	
+}
+
+static void WF_Shapeshifter_Rocket_Particle_StartTouch(int entity, int target)
+{
+	if(target > 0 && target < MAXENTITIES)	//did we hit something???
+	{
+		int owner = GetEntPropEnt(entity, Prop_Send, "m_hOwnerEntity");
+		if(!IsValidEntity(owner))
+		{
+			owner = 0;
+		}
+		
+		int inflictor = h_ArrowInflictorRef[entity];
+		if(inflictor != -1)
+			inflictor = EntRefToEntIndex(h_ArrowInflictorRef[entity]);
+
+		if(inflictor == -1)
+			inflictor = owner;
+			
+		float ProjectileLoc[3];
+		GetEntPropVector(entity, Prop_Data, "m_vecAbsOrigin", ProjectileLoc);
+		float DamageDeal = fl_rocket_particle_dmg[entity];
+		if(ShouldNpcDealBonusDamage(target))
+			DamageDeal *= h_BonusDmgToSpecialArrow[entity];
+
+		SDKHooks_TakeDamage(target, owner, inflictor, DamageDeal, DMG_BULLET|DMG_PREVENT_PHYSICS_FORCE, -1);	//acts like a kinetic rocket	
+		if(!IsInvuln(target))
+		{
+			switch(GetRandomInt(1, 6))
+			{
+				case 1:
+				{
+					ApplyStatusEffect(owner, target, "Teslar Electricution", 3.0);	
+				}
+				case 2:
+				{
+					ApplyStatusEffect(owner, target, "Near Zero", 3.0);	
+				}
+				case 3:
+				{
+					ApplyStatusEffect(owner, target, "Weakening Compound", 3.0);	
+				}
+				case 4:
+				{
+					ApplyStatusEffect(owner, target, "Molecular Collapse", 3.0);	
+				}
+				case 5:
+				{
+					ApplyStatusEffect(owner, target, "Cudgelled", 3.0);	
+				}
+				case 6:
+				{
+					ApplyStatusEffect(owner, target, "Silenced", 3.0);	
+				}
+			}
+		}
+
+		int particle = EntRefToEntIndex(i_WandParticle[entity]);
+		if(IsValidEntity(particle))
+			RemoveEntity(particle);
+	}
+	else
+	{
+		int particle = EntRefToEntIndex(i_WandParticle[entity]);
+		//we uhh, missed?
+		if(IsValidEntity(particle))
+			RemoveEntity(particle);
+	}
+	RemoveEntity(entity);
 }
