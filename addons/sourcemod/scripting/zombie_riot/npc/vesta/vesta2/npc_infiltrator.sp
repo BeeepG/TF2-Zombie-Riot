@@ -135,7 +135,6 @@ methodmap Vesta_Infiltrator < CClotBody
 		
 		int skin = 1;
 		SetEntProp(npc.index, Prop_Send, "m_nSkin", skin);
-		
 
 		npc.m_iWearable1 = npc.EquipItem("head", "models/player/items/all_class/dex_belltower_spy.mdl");
 		SetVariantString("1.0");
@@ -150,16 +149,20 @@ methodmap Vesta_Infiltrator < CClotBody
 		npc.m_iWearable2 = npc.EquipItem("head", "models/workshop/player/items/all_class/hwn2026_bone_chiller/hwn2026_bone_chiller_spy.mdl");
 		SetVariantString("1.0");
 		AcceptEntityInput(npc.m_iWearable2, "SetModelScale");		
-		npc.m_iWearable3 = npc.EquipItem("head", "models/workshop/player/items/spy/majors_mark/majors_mark.mdl");
-		SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", skin);
 
 		npc.m_iWearable5 = npc.EquipItem("head", "models/workshop/player/items/spy/hwn2026_bounty_hunters_brim/hwn2026_bounty_hunters_brim.mdl");
 		SetEntProp(npc.m_iWearable5, Prop_Send, "m_nSkin", skin);
 		NpcColourCosmetic_ViaPaint(npc.m_iWearable5, 15132390);
 		
 		npc.m_iWearable6 = npc.EquipItem("head", "models/weapons/c_models/c_pda_engineer/c_pda_engineer.mdl");
-		SetVariantString("1.5");
+		SetVariantString("2.0");
 		AcceptEntityInput(npc.m_iWearable6, "SetModelScale");
+
+		b_DoNotChangeTargetTouchNpc[npc.index] = 1;
+		b_ThisEntityIgnoredBeingCarried[npc.index] = true; //cant be targeted AND wont do npc collsiions
+		//b_CantCollidie[npc.index] = true; 
+		//b_CantCollidieAlly[npc.index] = true; 
+		ApplyStatusEffect(npc.index, npc.index, "Intangible", 999999.0);
 		
 
 		return npc;
@@ -213,7 +216,6 @@ public void Vesta_Infiltrator_ClotThink(int iNPC)
 		if(IsEnemyBuilding)
 		{
 			npc.m_flSpeed = 375.0;
-			ApplyStatusEffect(npc.index, npc.index, "Intangible", 0.5);
 			ApplyStatusEffect(npc.index, npc.index, "Defensive Backup", 0.5);
 		}
 		else
@@ -306,7 +308,7 @@ void Vesta_InfiltratorSelfDefense(Vesta_Infiltrator npc, float gameTime, int tar
 				
 				if(IsValidEnemy(npc.index, target))
 				{
-					float damageDealt = 40.0;
+					float damageDealt = 50.0;
 					if(ShouldNpcDealBonusDamage(target))
 						damageDealt *= 10.0;
 
@@ -326,7 +328,7 @@ void Vesta_InfiltratorSelfDefense(Vesta_Infiltrator npc, float gameTime, int tar
 
 	if(gameTime > npc.m_flNextMeleeAttack)
 	{
-		if(distance < (GIANT_ENEMY_MELEE_RANGE_FLOAT_SQUARED))
+		if(distance < (NORMAL_ENEMY_MELEE_RANGE_FLOAT_SQUARED))
 		{
 			int Enemy_I_See;
 								
