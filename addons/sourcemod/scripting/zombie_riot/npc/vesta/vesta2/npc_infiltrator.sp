@@ -23,13 +23,13 @@ static const char g_IdleAlertedSounds[][] = {
 };
 
 static const char g_MeleeAttackSounds[][] = {
-	"weapons/knife_swing.wav",
+	"weapons/pickaxe_swing1.wav",
+	"weapons/pickaxe_swing2.wav",
+	"weapons/pickaxe_swing3.wav"
 };
 
 static const char g_MeleeHitSounds[][] = {
-	"mvm/melee_impacts/cbar_hitbod_robo01.wav",
-	"mvm/melee_impacts/cbar_hitbod_robo02.wav",
-	"mvm/melee_impacts/cbar_hitbod_robo03.wav",
+	"mvm/melee_impacts/bat_baseball_hit_robo01.wav",
 };
 
 static const char g_SapperHitSounds[][] = {

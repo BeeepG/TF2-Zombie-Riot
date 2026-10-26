@@ -723,6 +723,9 @@ void NPC_ConfigSetup()
 	Vestan_Resource_Collector_OnMapStart_NPC();
 	Gasleader_OnMapStart_NPC();	
 
+//Vesta2
+	Vesta_Infiltrator_OnMapStart_NPC();
+
 //special
 	Invisible_TRIGGER_OnMapStart_NPC();//It is currently used as a trigger for the Vesta Factory.
 	CaptinoBaguettus_OnMapStart_NPC();//Captino Meinus Follower
@@ -2483,6 +2486,9 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/construction/construction2/vestans/npc_headhunter.sp"
 #include "npc/construction/construction2/vestans/npc_boltbag.sp"
 #include "npc/construction/construction2/vestans/npc_gasleader.sp"
+
+//vesta2
+#include "npc/vesta/vesta2/npc_infiltrator.sp"
 
 //Matrix Enemies
 #include "npc/matrix/15/npc_agentalan.sp"

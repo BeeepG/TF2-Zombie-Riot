@@ -5862,6 +5862,10 @@
 	{
 		"en"	"Giant Armored Medibot"
 	}
+	"Infiltrator"
+	{
+		"en"	"Infiltrator"
+	}
 	"0h No it's Not Fair"
 	{
 		"en"	"=Failed name="
