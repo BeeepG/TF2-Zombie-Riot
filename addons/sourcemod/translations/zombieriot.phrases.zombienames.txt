@@ -5866,6 +5866,14 @@
 	{
 		"en"	"Infiltrator"
 	}
+	"Paramedic"
+	{
+		"en"	"Paramedic"
+	}
+	"Vestan Ambulance"
+	{
+		"en"	"Stationary Ambulance"
+	}
 	"0h No it's Not Fair"
 	{
 		"en"	"=Failed name="
