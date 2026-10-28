@@ -194,9 +194,12 @@ static void Vestan_Paramedic_ClotThink(int iNPC)
 	{
 		case 0:
 		{
-			npc.AddActivityViaSequence("layer_taunt_the_mannbulance_intro");
-			npc.SetCycle(0.3);
-			npc.SetPlaybackRate(0.0);
+			int layer = npc.AddGestureViaSequence("layer_taunt_the_mannbulance_intro");
+			if(layer != -1)
+			{
+				npc.SetLayerCycle(layer, 0.3);
+				npc.SetLayerPlaybackRate(layer, 0.0);
+			}
 			npc.m_iState = 1;
 		}
 		case 1:
@@ -204,11 +207,20 @@ static void Vestan_Paramedic_ClotThink(int iNPC)
 			if(npc.Anger)
 			{
 				int layer = npc.FindGestureLayerBySequence(npc.LookupSequence("layer_taunt_the_mannbulance_intro"));
-				npc.FastRemoveLayer(layer);//stop taunting you piece of shit
+				if(layer != -1)
+					npc.FastRemoveLayer(layer);//stop taunting you piece of shit
 				
-				npc.AddActivityViaSequence("layer_taunt_the_mannbulance_outro");
-				npc.SetCycle(0.01);
-				npc.SetPlaybackRate(1.0);
+				npc.AddGestureViaSequence("layer_taunt_the_mannbulance_outro");
+				/*
+				바로 위 코드 안되면 이거 주석 풀고, 바로 위 코드를 주석 쳐서 해보셈
+				layer = npc.AddGestureViaSequence("layer_taunt_the_mannbulance_outro");
+				if(layer != -1)
+				{
+					npc.SetCycle(0.01);
+					npc.SetPlaybackRate(1.0);
+				}
+				*/
+				
 				npc.m_iState = 2;
 				npc.m_flAbilityDuration = GetGameTime(npc.index) + 1.0;
 				npc.m_flSpeed = 0.0;
@@ -220,7 +232,9 @@ static void Vestan_Paramedic_ClotThink(int iNPC)
 			if(npc.m_flAbilityDuration < GetGameTime(npc.index))
 			{
 				int help = npc.FindGestureLayerBySequence(npc.LookupSequence("layer_taunt_the_mannbulance_outro"));
-				npc.FastRemoveLayer(help);//stop taunting you piece of shit
+				if (help != -1)
+					npc.FastRemoveLayer(help);//stop taunting you piece of shit
+				
 				npc.m_flSpeed = 300.0;
 				npc.StartPathing();
 				npc.SetActivity("ACT_MP_RUN_MELEE_ALLCLASS");
