@@ -142,10 +142,26 @@ methodmap Vestan_Paramedic < CClotBody
 		SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", skin);
 		SetEntProp(npc.m_iWearable4, Prop_Send, "m_nSkin", skin);
 
+		/*
 		npc.m_iWearable5 = npc.EquipItemSeperate("models/workshop/player/items/medic/taunt_the_mannbulance/taunt_the_mannbulance.mdl");
 		SetVariantString("1.1");
 		AcceptEntityInput(npc.m_iWearable5, "SetModelScale");
 		SetEntProp(npc.m_iWearable5, Prop_Send, "m_nSkin", skin);
+		*/
+		
+		float Vec[3], Ang[3]={0.0,0.0,0.0};
+		GetAbsOrigin(npc.index, Vec);
+		npc.m_iWearable5 = npc.EquipItemSeperate("models/workshop/player/items/medic/taunt_the_mannbulance/taunt_the_mannbulance.mdl",_,_,_,_,true);
+		SetVariantString("1.1");
+		AcceptEntityInput(npc.m_iWearable5, "SetModelScale");
+		SetEntProp(npc.m_iWearable5, Prop_Send, "m_nSkin", skin);
+		Vec[0] -= 10.0;
+		TeleportEntity(npc.m_iWearable5, Vec, Ang, NULL_VECTOR);
+
+
+		SetVariantString("!activator");
+		AcceptEntityInput(npc.m_iWearable5, "SetParent", npc.index);
+		MakeObjectIntangeable(npc.m_iWearable5);
 
 		return npc;
 	}
