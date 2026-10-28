@@ -23,6 +23,13 @@ static const char g_MeleeHitSounds[][] = {
 	"weapons/axe_hit_flesh3.wav",
 };
 
+static const char g_GetOffCarSounds[][] = {
+	"vo/medic_mvm_get_upgrade01.mp3",
+	"vo/medic_mvm_get_upgrade02.mp3",
+	"vo/medic_mvm_get_upgrade03.mp3",
+	"vo/medic_mvm_get_upgrade04.mp3",
+};
+
 static const char g_PassiveSound[] = "mvm/giant_scout/giant_scout_loop.wav";
 static const char g_MeleeAttackSounds[] = "weapons/knife_swing.wav";
 
@@ -43,6 +50,7 @@ void Vestan_Paramedic_OnMapStart_NPC()
 static void ClotPrecache()
 {
 	PrecacheSoundArray(g_IdleAlertedSounds);
+	PrecacheSoundArray(g_GetOffCarSounds);
 	PrecacheSoundArray(g_MeleeHitSounds);
 	PrecacheSoundArray(g_DefaultMedic_HurtSounds);
 	PrecacheSoundArray(g_DeathSounds);
@@ -76,6 +84,10 @@ methodmap Vestan_Paramedic < CClotBody
 	{
 		EmitSoundToAll(g_DeathSounds[GetRandomInt(0, sizeof(g_DeathSounds) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
 	}
+	public void PlayGetOffCarSound() 
+	{
+		EmitSoundToAll(g_GetOffCarSounds[GetRandomInt(0, sizeof(g_GetOffCarSounds) - 1)], this.index, SNDCHAN_VOICE, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
+	}
 	public void PlayMeleeSound()
 	{
 		EmitSoundToAll(g_MeleeAttackSounds, this.index, SNDCHAN_AUTO, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
@@ -84,14 +96,13 @@ methodmap Vestan_Paramedic < CClotBody
 	{
 		EmitSoundToAll(g_MeleeHitSounds[GetRandomInt(0, sizeof(g_MeleeHitSounds) - 1)], this.index, SNDCHAN_STATIC, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME);
 	}
-	public void PlayPassiveSound()
+	public void PlayLoopSound()
 	{
-		EmitSoundToAll(g_PassiveSound[GetRandomInt(0, sizeof(g_PassiveSound) - 1)], this.index, SNDCHAN_STATIC, NORMAL_ZOMBIE_SOUNDLEVEL, _, NORMAL_ZOMBIE_VOLUME, 125);
-	}
-	public void StopPassiveSound()
-	{
-		StopSound(this.index, SNDCHAN_STATIC, g_PassiveSound[GetRandomInt(0, sizeof(g_PassiveSound) - 1)]);
-		StopSound(this.index, SNDCHAN_STATIC, g_PassiveSound[GetRandomInt(0, sizeof(g_PassiveSound) - 1)]);
+		if(!this.m_fbRangedSpecialOn)
+		{
+			EmitSoundToAll(g_PassiveSound, this.index, SNDCHAN_STATIC, NORMAL_ZOMBIE_SOUNDLEVEL - 10, _, 0.75, 125);
+			this.m_fbRangedSpecialOn=true;
+		}
 	}
 	property float m_flAbilityDuration
 	{
@@ -128,11 +139,10 @@ methodmap Vestan_Paramedic < CClotBody
 		npc.m_flAttackHappens = 0.0;
 		npc.m_flAttackHappens_bullshit = 0.0;
 		npc.m_flAttackHappenswillhappen = false;
+		npc.m_fbRangedSpecialOn = false;
 		npc.m_flNextRangedAttack = GetGameTime() + GetRandomFloat(5.0, 45.0);
 		npc.m_flSpeed = 225.0;
 		npc.StartPathing();
-		
-		npc.PlayPassiveSound();
 
 		npc.Anger = false;
 		
@@ -206,6 +216,7 @@ static void Vestan_Paramedic_ClotThink(int iNPC)
 		{
 			if(npc.Anger)
 			{
+				npc.PlayGetOffCarSound();
 				int layer = npc.FindGestureLayerBySequence(npc.LookupSequence("layer_taunt_the_mannbulance_intro"));
 				if(layer != -1)
 					npc.FastRemoveLayer(layer);//stop taunting you piece of shit
@@ -231,6 +242,8 @@ static void Vestan_Paramedic_ClotThink(int iNPC)
 		{
 			if(npc.m_flAbilityDuration < GetGameTime(npc.index))
 			{
+				StopSound(npc.index, SNDCHAN_STATIC, g_PassiveSound);
+				StopSound(npc.index, SNDCHAN_STATIC, g_PassiveSound);
 				int help = npc.FindGestureLayerBySequence(npc.LookupSequence("layer_taunt_the_mannbulance_outro"));
 				if (help != -1)
 					npc.FastRemoveLayer(help);//stop taunting you piece of shit
@@ -256,6 +269,7 @@ static void Vestan_Paramedic_ClotThink(int iNPC)
 
 	if(!npc.Anger)
 	{
+		npc.PlayLoopSound();
 		if(npc.m_flNextRangedAttackHappening < GetGameTime())
 		{
 			npc.m_flNextRangedAttackHappening = GetGameTime() + 2.5;
@@ -302,8 +316,6 @@ static void Vestan_Paramedic_ClotThink(int iNPC)
 			fl_Extra_Damage[entity] = fl_Extra_Damage[npc.index];
 			view_as<CClotBody>(entity).m_iBleedType = BLEEDTYPE_METAL;
 		}
-
-		npc.StopPassiveSound();
 	}
 	
 	if(IsValidEnemy(npc.index, npc.m_iTarget))
@@ -359,7 +371,8 @@ static void Vestan_Paramedic_NPCDeath(int entity)
 		npc.PlayDeathSound();	
 	ExpidonsaRemoveEffects(entity);
 
-	npc.StopPassiveSound();
+	StopSound(npc.index, SNDCHAN_STATIC, g_PassiveSound);
+	StopSound(npc.index, SNDCHAN_STATIC, g_PassiveSound);
 	
 	if(IsValidEntity(npc.m_iWearable5))
 		RemoveEntity(npc.m_iWearable5);
