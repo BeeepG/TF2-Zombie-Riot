@@ -93,6 +93,11 @@ methodmap Vestan_Paramedic < CClotBody
 		StopSound(this.index, SNDCHAN_STATIC, g_PassiveSound[GetRandomInt(0, sizeof(g_PassiveSound) - 1)]);
 		StopSound(this.index, SNDCHAN_STATIC, g_PassiveSound[GetRandomInt(0, sizeof(g_PassiveSound) - 1)]);
 	}
+	property float m_flAbilityDuration
+	{
+		public get()							{ return fl_AbilityOrAttack[this.index][6]; }
+		public set(float TempValueForProperty) 	{ fl_AbilityOrAttack[this.index][6] = TempValueForProperty; }
+	}
 	
 	public Vestan_Paramedic(float vecPos[3], float vecAng[3], int ally)
 	{
@@ -141,14 +146,14 @@ methodmap Vestan_Paramedic < CClotBody
 		SetEntProp(npc.m_iWearable2, Prop_Send, "m_nSkin", skin);
 		SetEntProp(npc.m_iWearable3, Prop_Send, "m_nSkin", skin);
 		SetEntProp(npc.m_iWearable4, Prop_Send, "m_nSkin", skin);
-
-		/*
+		
 		npc.m_iWearable5 = npc.EquipItemSeperate("models/workshop/player/items/medic/taunt_the_mannbulance/taunt_the_mannbulance.mdl");
 		SetVariantString("1.1");
 		AcceptEntityInput(npc.m_iWearable5, "SetModelScale");
 		SetEntProp(npc.m_iWearable5, Prop_Send, "m_nSkin", skin);
-		*/
 		
+		
+		/*
 		float Vec[3], Ang[3]={0.0,0.0,0.0};
 		GetAbsOrigin(npc.index, Vec);
 		npc.m_iWearable5 = npc.EquipItemSeperate("models/workshop/player/items/medic/taunt_the_mannbulance/taunt_the_mannbulance.mdl",_,_,_,_,true);
@@ -162,6 +167,7 @@ methodmap Vestan_Paramedic < CClotBody
 		SetVariantString("!activator");
 		AcceptEntityInput(npc.m_iWearable5, "SetParent", npc.index);
 		MakeObjectIntangeable(npc.m_iWearable5);
+		*/
 
 		return npc;
 	}
@@ -182,6 +188,44 @@ static void Vestan_Paramedic_ClotThink(int iNPC)
 		npc.AddGesture("ACT_MP_GESTURE_FLINCH_CHEST", false);
 		npc.m_blPlayHurtAnimation = false;
 		npc.PlayHurtSound();
+	}
+	
+	switch(npc.m_iState)
+	{
+		case 0:
+		{
+			npc.AddActivityViaSequence("layer_taunt_the_mannbulance_intro");
+			npc.SetCycle(0.3);
+			npc.SetPlaybackRate(0.0);
+			npc.m_iState = 1;
+		}
+		case 1:
+		{
+			if(npc.Anger)
+			{
+				int layer = npc.FindGestureLayerBySequence(npc.LookupSequence("layer_taunt_the_mannbulance_intro"));
+				npc.FastRemoveLayer(layer);//stop taunting you piece of shit
+				
+				npc.AddActivityViaSequence("layer_taunt_the_mannbulance_outro");
+				npc.SetCycle(0.01);
+				npc.SetPlaybackRate(1.0);
+				npc.m_iState = 2;
+				npc.m_flAbilityDuration = GetGameTime(npc.index) + 1.0;
+				npc.m_flSpeed = 0.0;
+				npc.StopPathing();
+			}
+		}
+		case 2:
+		{
+			if(npc.m_flAbilityDuration < GetGameTime(npc.index))
+			{
+				int help = npc.FindGestureLayerBySequence(npc.LookupSequence("layer_taunt_the_mannbulance_outro"));
+				npc.FastRemoveLayer(help);//stop taunting you piece of shit
+				npc.m_flSpeed = 300.0;
+				npc.StartPathing();
+				npc.SetActivity("ACT_MP_RUN_MELEE_ALLCLASS");
+			}
+		}
 	}
 	
 	if(npc.m_flNextThinkTime > GetGameTime(npc.index))
@@ -220,7 +264,6 @@ static void Vestan_Paramedic_ClotThink(int iNPC)
 		SetVariantString("1.25");
 		AcceptEntityInput(npc.m_iWearable1, "SetModelScale");
 		npc.m_flSpeed = 300.0;
-		npc.SetActivity("ACT_MP_RUN_MELEE_ALLCLASS");
 
 		npc.m_iBleedType = BLEEDTYPE_NORMAL;
 		npc.m_iStepNoiseType = STEPSOUND_NORMAL;	
