@@ -5874,6 +5874,22 @@
 	{
 		"en"	"Stationary Ambulance"
 	}
+	"Vestan Hospitality"
+	{
+		"en"	"Vestan Hospitality"
+	}
+	"Ripper"
+	{
+		"en"	"Ripper"
+	}
+	"Shortstabber"
+	{
+		"en"	"Shortstabber"
+	}
+	"Road Block"
+	{
+		"en"	"Road Block"
+	}
 	"0h No it's Not Fair"
 	{
 		"en"	"=Failed name="

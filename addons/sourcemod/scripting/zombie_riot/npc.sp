@@ -727,6 +727,10 @@ void NPC_ConfigSetup()
 	Vesta_Infiltrator_OnMapStart_NPC();
 	Vestan_Paramedic_OnMapStart_NPC();
 	Vesta_Ambulance_OnMapStart_NPC();
+	Vestan_Shortstabber_OnMapStart_NPC();
+	Vestan_Ripper_OnMapStart_NPC();
+	Vestan_Hospitality_OnMapStart_NPC();
+	Vestan_Road_Block_OnMapStart_NPC();
 
 //special
 	Invisible_TRIGGER_OnMapStart_NPC();//It is currently used as a trigger for the Vesta Factory.
@@ -2493,6 +2497,10 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/vesta/vesta2/npc_infiltrator.sp"
 #include "npc/vesta/vesta2/npc_paramedic.sp"
 #include "npc/vesta/vesta2/npc_ambulance.sp"
+#include "npc/vesta/vesta2/npc_ripper.sp"
+#include "npc/vesta/vesta2/npc_shortstabber.sp"
+#include "npc/vesta/vesta2/npc_vestan_hospitality.sp"
+#include "npc/vesta/vesta2/npc_roadblock.sp"
 
 //Matrix Enemies
 #include "npc/matrix/15/npc_agentalan.sp"
