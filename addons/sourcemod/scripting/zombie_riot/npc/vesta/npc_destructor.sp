@@ -116,7 +116,7 @@ methodmap VestaDestructor < CSeaBody
 		AcceptEntityInput(npc.m_iWearable4, "SetModelScale");
 
 		npc.m_flMeleeArmor = 1.25;
-		npc.m_flRangedArmor = 0.5;
+		npc.m_flRangedArmor = 0.65;
 		return npc;
 	}
 }
@@ -173,11 +173,13 @@ static void VestaDestructor_ClotThink(int iNPC)
 			npc.m_flNextMeleeAttack = gameTime + 3.0;
 
 			float radius = 250.0;
+			float speed = 0.5;
 			if(NpcStats_VestanCallToArms(npc.index))
+				speed *= 1.5;
 				radius *= 1.5;
 
 			npc.PlayExplosionSound();
-			spawnRing_Vectors(vecMe, radius, 0.0, 0.0, 50.0, "materials/sprites/laserbeam.vmt", 100, 150, 255, 175, 1, 0.5, 6.0, 0.1, 1, 640.0);
+			spawnRing_Vectors(vecMe, 250.0, 0.0, 0.0, 50.0, "materials/sprites/laserbeam.vmt", 100, 150, 255, 175, 1, speed, 6.0, 0.1, 1, 640.0);
 			Explode_Logic_Custom(25.0, -1, npc.index, -1, vecMe, radius, _, 0.75, true, _, false, _, VestaDestructor_ExplodePost);
 		}
 	}
@@ -191,7 +193,7 @@ static void VestaDestructor_ClotThink(int iNPC)
 
 static void VestaDestructor_ExplodePost(int attacker, int victim, float damage, int weapon)
 {
-	NPC_Ignite(victim, attacker,8.0, -1, 5.5);
+	NPC_Ignite(victim, attacker,4.0, -1, 4.0);
 }
 
 static Action VestaDestructor_OnTakeDamage(int victim, int &attacker, int &inflictor, float &damage, int &damagetype, int &weapon, float damageForce[3], float damagePosition[3], int damagecustom)

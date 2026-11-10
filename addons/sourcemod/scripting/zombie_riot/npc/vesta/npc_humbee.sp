@@ -71,6 +71,8 @@ methodmap VestanHumbee < CClotBody
 		npc.m_flAttackHappens = 0.0;
 		f_NpcTurnPenalty[npc.index] = 0.7;
 
+		b_DissapearOnDeath[npc.index] = true;
+
 		npc.m_flMeleeArmor = 1.75;
 		npc.m_flRangedArmor = 0.75;
 

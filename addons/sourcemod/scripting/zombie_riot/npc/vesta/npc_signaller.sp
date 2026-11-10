@@ -345,9 +345,12 @@ static void VestanSignaller_ClotThink(int iNPC)
 		int entity = EntRefToEntIndexFast(i_ObjectsNpcsTotal[i]);
 		if(entity != npc.index && entity != INVALID_ENT_REFERENCE && IsEntityAlive(entity))
 		{
-			if(GetTeam(entity) == team)
+			float vecAlly[3]; WorldSpaceCenter(entity, vecAlly);
+			float VecSelf[3]; WorldSpaceCenter(npc.index, VecSelf);
+			float flDistanceToBuffTarget = GetVectorDistance(vecAlly, VecSelf, true);
+			if(GetTeam(entity) == team && distance < NORMAL_ENEMY_MELEE_RANGE_FLOAT_SQUARED*10.0)
 			{
-				ApplyStatusEffect(npc.index, entity, "Call To Vesta", 0.5);
+				ApplyStatusEffect(npc.index, entity, "Call To Vesta", 4.0);
 			}
 		}
 	}
@@ -359,6 +362,17 @@ static void VestanSignaller_ClotThink(int iNPC)
 		npc.m_bAllowBackWalking = false;
 		npc.m_flSpeed = 0.0;
 		npc.m_iChanged_WalkCycle = -1;
+		for(int i; i < i_MaxcountNpcTotal; i++)
+		{
+			int entity = EntRefToEntIndexFast(i_ObjectsNpcsTotal[i]);
+			if(entity != npc.index && entity != INVALID_ENT_REFERENCE && IsEntityAlive(entity))
+			{
+				if(GetTeam(entity) == team)
+				{
+					ApplyStatusEffect(npc.index, entity, "Call To Vesta", 0.5);
+				}
+			}
+		}
 	}
 	else if(npc.m_iTargetAlly > 0)
 	{
