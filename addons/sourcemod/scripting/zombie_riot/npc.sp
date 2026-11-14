@@ -813,6 +813,12 @@ void NPC_ConfigSetup()
 	//Almina Last Hope
 	Barracks_Thorns();
 
+	//Vestan Runaways
+	Barrack_Vestan_Breacher_Precache();
+	Barrack_Vestan_Grenadier_Precache();
+	
+	Barrack_Vestan_Chaser_Precache();
+
 	// Raid Low Prio
 	TrueFusionWarrior_OnMapStart();
 	Blitzkrieg_OnMapStart();
@@ -2090,6 +2096,10 @@ Action NpcSpecificOnTakeDamage(int victim, int &attacker, int &inflictor, float 
 #include "npc/ally/almina_barracks/npc_barrack_headhunter.sp"
 #include "npc/ally/almina_barracks/npc_barrack_inquisitor.sp"
 #include "npc/ally/almina_barracks/npc_barrack_lighthouse_guardian.sp"
+
+#include "npc/ally/vestan_barracks/npc_barrack_breacher.sp"
+#include "npc/ally/vestan_barracks/npc_barrack_grenadier.sp"
+#include "npc/ally/vestan_barracks/npc_barrack_chaser.sp"
 
 #include "npc/ally/npc_nearl_sword.sp"
 #include "npc/ally/npc_goliath_aircraft.sp"

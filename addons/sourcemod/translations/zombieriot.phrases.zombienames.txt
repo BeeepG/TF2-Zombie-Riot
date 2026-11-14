@@ -1156,6 +1156,18 @@
 		"it"		"Guardiano del Faro"
 		"ko" 		"배럭 알미나 등대 수호병"
 	}
+	"Barracks Vestan Breacher"
+	{
+		"en"		"Vestan Deserter Breacher"
+	}
+	"Barracks Vestan Grenadier"
+	{
+		"en"		"Vestan Deserter Grenadier"
+	}
+	"Barracks Vestan Chaser"
+	{
+		"en"		"Vestan Deserter Chaser"
+	}
 	"Barracks Militia"
 	{
 		"en" 		"Militia"
