@@ -170,8 +170,8 @@ public void Barrack_Vestan_Chaser_ClotThink(int iNPC)
 
 							if(target > 0) 
 							{
-                                float flHealth = float(GetEntProp(target, Prop_Send, "m_iHealth"));
-								float flMAXHealth = float(GetEntProp(target, Prop_Send, "m_iMaxHealth"));
+                                float flHealth = float(GetEntProp(target, Prop_Data, "m_iHealth"));
+								float flMAXHealth = float(GetEntProp(target, Prop_Data, "m_iMaxHealth"));
 								float flpercenthpfrommax = flHealth / flMAXHealth;
 								float damage = 400.0;
 								if (flpercenthpfrommax <= 0.5)

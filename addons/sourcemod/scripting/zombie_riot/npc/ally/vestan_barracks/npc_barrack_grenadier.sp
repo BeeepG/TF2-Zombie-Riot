@@ -142,7 +142,7 @@ public void Barrack_Vestan_Grenadier_ClotThink(int iNPC)
 	
 	if(BarrackBody_ThinkStart(npc.index, GameTime))
 	{
-		int client = BarrackBody_ThinkTarget(npc.index, true, GameTime);
+		//int client = BarrackBody_ThinkTarget(npc.index, true, GameTime);
 		int PrimaryThreatIndex = npc.m_iTarget;
 
 		if(PrimaryThreatIndex > 0)
@@ -176,10 +176,10 @@ public void Barrack_Vestan_Grenadier_ClotThink(int iNPC)
 						{
 							float RocketDamage = 675.0;
 							float RocketSpeed = 900.0;
-							float vecTarget[3]; WorldSpaceCenter(npc.m_iTarget, vecTarget );
+							float vecYou[3]; WorldSpaceCenter(npc.m_iTarget, vecYou );
 							float VecStart[3]; WorldSpaceCenter(npc.index, VecStart );
 							float vecDest[3];
-							vecDest = vecTarget;
+							vecDest = vecYou;
 							vecDest[0] += GetRandomFloat(-100.0, 100.0);
 							vecDest[1] += GetRandomFloat(-100.0, 100.0);
 							vecDest[2] += GetRandomFloat(-100.0, 100.0);
